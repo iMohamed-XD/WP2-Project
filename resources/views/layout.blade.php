@@ -4,55 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Laravel Auth' }}</title>
+    <title>{{ $title ?? 'AIU GYM' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Bootstrap -->
     <style>
-        body{
-            min-height:100vh;
-            background:linear-gradient(135deg,#0f172a,#1e293b,#111827);
-            display:flex;
-            justify-content:center;
-            align-items:center;
-        }
 
-        .auth-card{
-            width:100%;
-            max-width:430px;
-            border:none;
-            border-radius:20px;
-            background:rgba(30,41,59,.85);
-            backdrop-filter:blur(12px);
-            box-shadow:0 0 40px rgba(0,0,0,.5);
-        }
+    body {
+        min-height: 100vh;
+        background: linear-gradient(
+            135deg,
+            #020617,
+            #111827,
+            #1e293b
+        );
+        color: white;
+    }
 
-        .form-control{
-            background:#111827;
-            border:1px solid #374151;
-            color:#fff;
-        }
 
-        .form-control:focus{
-            background:#111827;
-            color:#fff;
-            border-color:#0d6efd;
-            box-shadow:none;
-        }
+    .auth-card {
 
-        .btn-primary{
-            border-radius:10px;
-        }
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(12px);
 
-        .card-title{
-            font-weight:700;
-            letter-spacing:.5px;
-        }
+        border-radius: 18px;
 
-        a{
-            text-decoration:none;
-        }
+        box-shadow:
+            0 20px 50px rgba(0,0,0,.35);
+
+    }
+
+
+
+    .form-control,
+    .form-select {
+
+        background:#020617;
+        border:1px solid #334155;
+        color:white;
+
+    }
+
+
+    .form-control:focus,
+    .form-select:focus {
+
+        background:#020617;
+        color:white;
+
+        border-color:#3b82f6;
+
+        box-shadow:
+        0 0 0 .25rem rgba(59,130,246,.25);
+
+    }
+
+
+
+    .btn {
+
+        border-radius:10px;
+
+    }
+
+
+
+    .section-title {
+
+        border-left:4px solid #3b82f6;
+
+        padding-left:12px;
+
+        margin-bottom:20px;
+
+    }
+
+
+    .info-box {
+
+        background:#020617;
+
+        border-radius:12px;
+
+        padding:15px;
+
+        height:100%;
+
+    }
+
+
     </style>
 </head>
 
