@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
             TrainerStatusSeeder::class,
         ]);
 
-        Trainer::factory()->count(30)->create();
+        Trainer::factory()->count(36)->create();
     }
 }
