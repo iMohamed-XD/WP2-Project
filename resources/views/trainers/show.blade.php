@@ -50,11 +50,24 @@
                         </p>
 
 
-                        <span class="badge bg-success px-3 py-2">
+                        <div class="mb-3">
+                            <strong>Status:</strong>
+                            <form action="{{ route('trainers.updateStatus', $trainer->id) }}" method="POST" id="statusForm" class="d-inline">
+                                @csrf
+                                @method('PATCH')
 
-                            {{ $trainer->trainerStatus?->status ?? 'Unknown Status' }}
-
-                        </span>
+                                <select name="trainer_status_id"
+                                        class="form-select form-select-sm d-inline-block w-auto border-success bg-success text-white"
+                                        onchange="this.form.submit()">
+                                    @foreach($statuses as $status)
+                                        <option value="{{ $status->id }}"
+                                            {{ $trainer->trainer_status_id == $status->id ? 'selected' : '' }}>
+                                            {{ $status->status }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </div>
 
                     </div>
 

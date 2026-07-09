@@ -44,4 +44,15 @@ class Trainer extends Model
     {
         return $this->belongsTo(TrainerStatus::class);
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['specialty'] ?? null, function ($query, $specialty) {
+            $query->where('sports_type_id', $specialty);
+        })->when($filters['experience'] ?? null, function ($query, $experience) {
+            $query->where('years_of_experience', '>=', $experience);
+        })->when($filters['status'] ?? null, function ($query, $status) {
+            $query->where('trainer_status_id', $status);
+        });
+    }
 }

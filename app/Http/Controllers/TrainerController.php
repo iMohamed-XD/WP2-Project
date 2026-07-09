@@ -17,11 +17,25 @@ class TrainerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request)
     {
-        $trainers = Trainer::with(['sportsType', 'trainerStatus'])->latest()->get();
+        $filters = $request->only(['specialty', 'experience', 'status']);
 
-        return view('trainers.index', compact('trainers'));
+        // Apply filters and paginate (Project Requirement: Pagination)
+        $trainers = Trainer::filter($filters)
+            ->with(['sportsType', 'trainerStatus'])
+            ->paginate(9);
+
+        //  AJAX
+        if ($request->ajax()) {
+            return view('trainers._trainer_grid', compact('trainers'))->render();
+        }
+
+        // Normal load
+        $sportsTypes = \App\Models\SportsType::all();
+        $trainerStatuses = \App\Models\TrainerStatus::all();
+
+        return view('trainers.index', compact('trainers', 'sportsTypes', 'trainerStatuses'));
     }
 
     /**
@@ -74,9 +88,10 @@ class TrainerController extends Controller
      */
     public function show(string $id): View
     {
+        $statuses = TrainerStatus::all();
         $trainer = Trainer::with(['sportsType', 'trainerStatus'])->findOrFail($id);
 
-        return view('trainers.show', compact('trainer'));
+        return view('trainers.show', compact('trainer', 'statuses'));
     }
 
     /**
@@ -135,5 +150,17 @@ class TrainerController extends Controller
         $trainer->delete();
 
         return redirect()->route('trainers.index')->with('success', 'Trainer deleted successfully.');
+    }
+
+    public function updateStatus(Request $request, string $id): RedirectResponse
+    {
+        $trainer = Trainer::findOrFail($id);
+        $validatedData = $request->validate([
+            'trainer_status_id' => 'required|exists:trainer_statuses,id',
+        ]);
+
+        $trainer->update($validatedData);
+
+        return redirect()->route('trainers.show', $trainer->id)->with('success', 'Trainer status updated successfully.');
     }
 }
