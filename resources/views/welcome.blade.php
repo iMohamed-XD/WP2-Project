@@ -1,6 +1,6 @@
 <x-layout>
 
-<div class="card auth-card text-center text-light">
+<div class="card auth-card text-center text-light m-5">
     <div class="card-body p-5">
 
         <h1 class="display-5 fw-bold mb-3">

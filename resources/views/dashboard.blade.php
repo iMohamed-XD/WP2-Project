@@ -25,6 +25,11 @@
                             Management of Trainers & Sports Staff
                         </a>
 
+                        <a href="{{ route('members.index') }}"
+                        class="btn btn-primary btn-lg">
+                            Management of Members
+                        </a>
+
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
 

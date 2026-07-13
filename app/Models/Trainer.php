@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Storage;
 
 class Trainer extends Model
 {
@@ -54,5 +56,13 @@ class Trainer extends Model
         })->when($filters['status'] ?? null, function ($query, $status) {
             $query->where('trainer_status_id', $status);
         });
+    }
+    protected function profilePictureUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->image
+                ? Storage::disk('public')->url($this->image)
+                : asset('images/avatar-default.jpg')
+        );
     }
 }
