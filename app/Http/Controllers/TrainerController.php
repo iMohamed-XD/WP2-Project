@@ -18,7 +18,7 @@ class TrainerController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->only(['specialty', 'experience', 'status']);
+        $filters = $request->only(['specialty', 'experience', 'status', 'search']);
 
         // Apply filters and paginate (Project Requirement: Pagination)
         $trainers = Trainer::filter($filters)

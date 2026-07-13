@@ -55,6 +55,12 @@ class Trainer extends Model
             $query->where('years_of_experience', '>=', $experience);
         })->when($filters['status'] ?? null, function ($query, $status) {
             $query->where('trainer_status_id', $status);
+        })->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($sub) use ($search) {
+                $sub->where('firstname', 'like', "%{$search}%")
+                    ->orWhere('lastname', 'like', "%{$search}%")
+                    ->orWhereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%{$search}%"]);
+            });
         });
     }
     protected function profilePictureUrl(): Attribute

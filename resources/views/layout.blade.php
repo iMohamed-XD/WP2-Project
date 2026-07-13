@@ -93,6 +93,42 @@
 
     }
 
+    .input-group-text{
+    background:#0f172a !important;
+    color:#fff;
+    border:1px solid #334155;
+}
+
+.form-label{
+    color:#cbd5e1;
+    margin-bottom:.5rem;
+}
+
+.form-control::placeholder{
+    color:#94a3b8;
+}
+
+.form-select option{
+    background:#111827;
+    color:white;
+}
+
+#clearFilters{
+    transition:.25s;
+}
+
+#clearFilters:hover{
+    transform:translateY(-2px);
+}
+
+.auth-card{
+    transition:.25s;
+}
+
+.auth-card:hover{
+    box-shadow:0 20px 50px rgba(59,130,246,.15);
+}
+
 
     </style>
 </head>
