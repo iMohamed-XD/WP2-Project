@@ -7,7 +7,6 @@ use App\Models\Trainer;
 use App\Models\TrainerStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
@@ -32,8 +31,8 @@ class TrainerController extends Controller
         }
 
         // Normal load
-        $sportsTypes = \App\Models\SportsType::all();
-        $trainerStatuses = \App\Models\TrainerStatus::all();
+        $sportsTypes = SportsType::all();
+        $trainerStatuses = TrainerStatus::all();
 
         return view('trainers.index', compact('trainers', 'sportsTypes', 'trainerStatuses'));
     }
@@ -76,7 +75,6 @@ class TrainerController extends Controller
         if ($request->hasFile('image')) {
             $validatedData['image'] = $request->file('image')->store('trainers', 'public');
         }
-
 
         Trainer::create($validatedData);
 
