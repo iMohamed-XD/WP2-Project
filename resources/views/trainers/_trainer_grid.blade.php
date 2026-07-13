@@ -8,9 +8,11 @@
                          style="height:300px;object-fit:cover;"
                          alt="{{ $trainer->firstname }}">
                 @else
-                    <div class="d-flex justify-content-center align-items-center"
-                         style="height:300px;background:#1f2937;"></div>
-                @endif
+                    <img src="{{ asset('images/avatar-default.jpg') }}"
+                    class="card-img-top"
+                    style="height:300px;object-fit:cover;"
+                    alt="{{ $trainer->firstname }}">
+                        @endif
                 <div class="card-body d-flex flex-column">
                     <h4 class="fw-bold">{{ $trainer->firstname }} {{ $trainer->lastname }}</h4>
                     <hr>
