@@ -17,9 +17,9 @@
                 Login
             </a>
 
-            <a href="{{ route('register') }}" class="btn btn-outline-light btn-lg">
+            {{-- <a href="{{ route('register') }}" class="btn btn-outline-light btn-lg">
                 Register
-            </a>
+            </a> --}}
 
         </div>
 

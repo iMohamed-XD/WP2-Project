@@ -10,13 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class TrainerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): View | RedirectResponse | string
     {
         $filters = $request->only(['specialty', 'experience', 'status', 'search']);
 
@@ -40,8 +41,8 @@ class TrainerController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
-    {
+    public function create(): View | RedirectResponse
+    {   
         $sportsTypes = SportsType::all();
         $trainerStatuses = TrainerStatus::all();
 
@@ -84,7 +85,7 @@ class TrainerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): View
+    public function show(string $id): View | RedirectResponse
     {
         $statuses = TrainerStatus::all();
         $trainer = Trainer::with(['sportsType', 'trainerStatus'])->findOrFail($id);
@@ -95,7 +96,7 @@ class TrainerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View
+    public function edit(string $id): View | RedirectResponse
     {
         $trainer = Trainer::findOrFail($id);
         $sportsTypes = SportsType::all();

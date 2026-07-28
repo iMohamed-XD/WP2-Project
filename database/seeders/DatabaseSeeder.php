@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SportsTypeSeeder::class,
             TrainerStatusSeeder::class,
+            RoleSeeder::class,
+            DepartmetSeeder::class,
+            UserSeeder::class,
         ]);
 
         Trainer::factory()->count(36)->create();

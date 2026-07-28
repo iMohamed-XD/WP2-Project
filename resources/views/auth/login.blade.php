@@ -58,10 +58,10 @@
 
         </form>
 
-        <div class="text-center text-secondary">
+        {{-- <div class="text-center text-secondary">
             Don't have an account?
             <a href="{{ route('register') }}">Register</a>
-        </div>
+        </div> --}}
 
     </div>
 </div>
