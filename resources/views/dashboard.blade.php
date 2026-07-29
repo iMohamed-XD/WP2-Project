@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :name="auth()->user()->name">
 
 <div class="container py-5">
 

@@ -1,4 +1,5 @@
 <x-layout>
+    <x-user-badge :name="auth()->user()->name"></x-user-badge>
 
 <div class="container py-5">
 

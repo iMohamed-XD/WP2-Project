@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class TrainerController extends Controller
 {
@@ -99,6 +100,7 @@ class TrainerController extends Controller
     public function edit(string $id): View | RedirectResponse
     {
         $trainer = Trainer::findOrFail($id);
+        Gate::authorize('edit', $trainer);
         $sportsTypes = SportsType::all();
         $trainerStatuses = TrainerStatus::all();
 
@@ -146,6 +148,7 @@ class TrainerController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         $trainer = Trainer::findOrFail($id);
+        Gate::authorize('delete', $trainer);
         $trainer->delete();
 
         return redirect()->route('trainers.index')->with('success', 'Trainer deleted successfully.');
@@ -154,6 +157,7 @@ class TrainerController extends Controller
     public function updateStatus(Request $request, string $id): RedirectResponse
     {
         $trainer = Trainer::findOrFail($id);
+        Gate::authorize('editStatus', $trainer);
         $validatedData = $request->validate([
             'trainer_status_id' => 'required|exists:trainer_statuses,id',
         ]);

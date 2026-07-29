@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
                 'members',
                 'branches',
                 'warehouses',
-                'classes'
+                'workouts'
             ];
 
             foreach ($departments as $departmentName) {

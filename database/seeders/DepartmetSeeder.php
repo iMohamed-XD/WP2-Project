@@ -13,7 +13,7 @@ class DepartmetSeeder extends Seeder
      */
     public function run(): void
     {
-        $departments = ['trainers', 'members', 'branches', 'warehouses', 'classes'];
+        $departments = ['trainers', 'members', 'branches', 'warehouses', 'workouts'];
 
         foreach ($departments as $department) {
             department::firstOrCreate(['department' => $department]);

@@ -1,4 +1,5 @@
 <x-layout>
+    <x-user-badge :name="auth()->user()->name"></x-user-badge>
     <div class="container py-5">
         {{-- Header row: title + add button --}}
         <div class="d-flex justify-content-between align-items-center mb-4">

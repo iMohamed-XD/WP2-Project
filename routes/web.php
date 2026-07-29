@@ -13,6 +13,7 @@ Route::get('/', function () {
 //Trainers
 Route::middleware(['auth', 'department:trainers'])->group(function () {
     Route::resource('trainers', TrainerController::class);
+    Route::patch('/trainers/{trainer}/status', [TrainerController::class, 'updateStatus'])->name('trainers.updateStatus');
 });
 
 //Members
@@ -28,10 +29,10 @@ Route::middleware(['auth', 'department:branches'])->group(function () {
 });
 
 //Classes
-Route::middleware(['auth', 'department:classes'])->group(function () {
-    Route::get('/classes', function () {
-        return view('classes.index');
-    })->name('classes');
+Route::middleware(['auth', 'department:workouts'])->group(function () {
+    Route::get('/workouts', function () {
+        return view('workouts.index');
+    })->name('workouts');
 });
 
 //Warehouses
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'department:warehouses'])->group(function () {
     })->name('warehouses');
 });
 
+//Login and Logout
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
