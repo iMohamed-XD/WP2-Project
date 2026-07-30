@@ -119,7 +119,7 @@ class TrainerController extends Controller
     public function update(Request $request, string $id): RedirectResponse
     {
         $trainer = Trainer::findOrFail($id);
-        Gate::authorize('edit', $trainer);
+        //Gate::authorize('edit', $trainer);
         $validatedData = $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
@@ -139,10 +139,10 @@ class TrainerController extends Controller
             'certification' => 'required|in:level_1,level_2,level_3,level_4',
         ]);
 
-        if (Gate::allows('editStatus', $trainer)) {
-            $rules['trainer_status_id'] = 'required|exists:trainer_statuses,id';
-            $validatedData = $request->validate($rules);
-            }
+        // if (Gate::allows('editStatus', $trainer)) {
+        //     $rules['trainer_status_id'] = 'required|exists:trainer_statuses,id';
+        //     $validatedData = $request->validate($rules);
+        //     }
 
         if ($request->hasFile('image')) {
             Storage::delete('public/' . $trainer->image);
