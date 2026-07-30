@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Trainer;
+use App\Models\Workout;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,15 +16,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
         $this->call([
             SportsTypeSeeder::class,
             TrainerStatusSeeder::class,
             RoleSeeder::class,
             DepartmetSeeder::class,
             UserSeeder::class,
+            TrainerSeeder::class,      
+            WorkoutLevelSeeder::class,
+            WorkoutSeeder::class,
+            TrainerWorkoutSeeder::class,
         ]);
-
-        Trainer::factory()->count(36)->create();
     }
 }

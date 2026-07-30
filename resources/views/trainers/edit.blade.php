@@ -18,7 +18,7 @@
                                 Edit Trainer
                             </h1>
 
-                            <p class="text-secondary">
+                            <p class="text-body">
                                 Update trainer information
                             </p>
 

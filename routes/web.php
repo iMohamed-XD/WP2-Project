@@ -8,12 +8,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 //Trainers
 Route::middleware(['auth', 'department:trainers'])->group(function () {
-    Route::resource('trainers', TrainerController::class);
     Route::patch('/trainers/{trainer}/status', [TrainerController::class, 'updateStatus'])->name('trainers.updateStatus');
+    Route::get('/trainers/specialties', [TrainerController::class, 'specialties'])->name('trainers.specialties');
+    Route::post('/trainers/specialties', [TrainerController::class, 'createSpecialty'])->name('trainers.createSpecialty');
+    Route::put('/trainers/specialties/{specialty}', [TrainerController::class, 'editSpecialties'])->name('trainers.editSpecialties');
+    Route::delete('/trainers/specialties/{specialty}', [TrainerController::class, 'deleteSpecialties'])->name('trainers.deleteSpecialties');
+    Route::resource('trainers', TrainerController::class);
 });
 
 //Members

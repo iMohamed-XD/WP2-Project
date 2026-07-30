@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\SportsType;
 use App\Models\Trainer;
 use App\Models\User;
 
@@ -27,7 +28,7 @@ class TrainerPolicy
         return $user->role->role === 'manager';
     }
 
-    public function editSpecialization(User $user, Trainer $trainer): bool
+    public function editSpecialization(User $user, SportsType $specialty): bool
     {
         return $user->role->role === 'manager';
     }

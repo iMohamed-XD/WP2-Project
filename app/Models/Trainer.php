@@ -5,30 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
 
+#[Fillable([
+    'firstname',
+    'lastname',
+    'fathername',
+    'phone',
+    'address',
+    'image',
+    'gender',
+    'sports_type_id',
+    'birthplace',
+    'birthdate',
+    'years_of_experience',
+    'SSN',
+    'email',
+    'hiring_date',
+    'certification',
+    'trainer_status_id',
+])]
+#[Hidden(['remember_token'])]
 class Trainer extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['firstname',
-        'lastname',
-        'fathername',
-        'phone',
-        'address',
-        'image',
-        'gender',
-        'sports_type_id',
-        'birthplace',
-        'birthdate',
-        'years_of_experience',
-        'SSN',
-        'email',
-        'hiring_date',
-        'certification',
-        'trainer_status_id'];
-
-    protected $hidden = ['remember_token'];
 
     protected $casts = [
         'birthdate' => 'date',
@@ -70,5 +73,10 @@ class Trainer extends Model
                 ? Storage::disk('public')->url($this->image)
                 : asset('images/avatar-default.jpg')
         );
+    }
+
+    public function workouts()
+    {
+        return $this->belongsToMany(Workout::class, 'trainer_workouts');
     }
 }

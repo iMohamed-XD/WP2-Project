@@ -89,7 +89,13 @@ class TrainerController extends Controller
     public function show(string $id): View | RedirectResponse
     {
         $statuses = TrainerStatus::all();
-        $trainer = Trainer::with(['sportsType', 'trainerStatus'])->findOrFail($id);
+
+        $trainer = Trainer::with([
+            'sportsType',
+            'trainerStatus',
+            'workouts.sportsType',
+            'workouts.workoutLevel',
+        ])->findOrFail($id);
 
         return view('trainers.show', compact('trainer', 'statuses'));
     }
@@ -149,6 +155,7 @@ class TrainerController extends Controller
     {
         $trainer = Trainer::findOrFail($id);
         Gate::authorize('delete', $trainer);
+        
         $trainer->delete();
 
         return redirect()->route('trainers.index')->with('success', 'Trainer deleted successfully.');
@@ -165,5 +172,44 @@ class TrainerController extends Controller
         $trainer->update($validatedData);
 
         return redirect()->route('trainers.show', $trainer->id)->with('success', 'Trainer status updated successfully.');
+    }
+    /*
+        Specialties
+        Create, Show, edit, and delete
+    */
+    public function specialties() : View
+    {       
+        Gate::authorize('viewAny', SportsType::class);
+        $specialties = SportsType::query()->paginate(10);
+        return view('trainers.specialties', compact('specialties'));
+    }
+
+    public function editSpecialties(Request $request, string $id): RedirectResponse
+    {
+        $specialty = SportsType::findOrFail($id);
+        Gate::authorize('update', $specialty);
+        $validatedData = $request->validate([
+            'type' => 'required|string|min:1|max:255',
+        ]);
+        $specialty->update($validatedData);
+        return redirect()->route('trainers.specialties')->with('success', 'Specialty has been updated successfully!');
+    }
+
+    public function deleteSpecialties(string $id): RedirectResponse
+    {
+        $specialty = SportsType::findOrFail($id);
+        Gate::authorize('delete', $specialty);
+        $specialty->delete();
+        return redirect()->route('trainers.specialties')->with('success', 'Specialty has been deleted successfully!');
+    }
+
+    public function createSpecialty(Request $request): RedirectResponse
+    {
+        Gate::authorize('create', SportsType::class);
+        $validatedData = $request->validate([
+            'type' => 'required|string|min:1|max:255',
+        ]);
+        SportsType::create($validatedData);
+        return redirect()->route('trainers.specialties')->with('success', 'Specialty has been Created successfully!');
     }
 }

@@ -24,14 +24,10 @@
 
                             @else
 
-                                <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4"
-                                    style="
-                                        width:180px;
-                                        height:180px;
-                                        background:#111827;
-                                    ">
-
-                                </div>
+                                <img src="{{ asset('images/avatar-default.jpg') }}"
+                                class="card-img-top"
+                                style="width:180px;height:180px;object-fit:cover;"
+                                alt="{{ $trainer->firstname }}">
 
                             @endif
 
@@ -43,36 +39,36 @@
 
                             </h1>
 
-                            <p class="text-secondary">
+                            <p class="text-body">
 
                                 {{ $trainer->sportsType?->type ?? 'No specialization assigned' }}
 
                             </p>
                             @can('editStatus', $trainer)
-                            <div class="mb-6">
-                                <strong>Status:</strong>
-                                <form action="{{ route('trainers.updateStatus', ['trainer' => $trainer->id]) }}" method="POST" id="statusForm" class="d-inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    <select name="trainer_status_id"
-                                            class="form-select form-select-sm d-inline-block w-auto border-success bg-success text-white"
-                                            onchange="this.form.submit()">
-                                        @foreach($statuses as $status)
-                                            <option value="{{ $status->id }}"
-                                                {{ $trainer->trainer_status_id == $status->id ? 'selected' : '' }}>
-                                                {{ $status->status }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </form>
-                                @else
+                                <div class="mb-6">
+                                    <strong>Status:</strong>
+                                    <form action="{{ route('trainers.updateStatus', ['trainer' => $trainer->id]) }}" method="POST" id="statusForm" class="d-inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <select name="trainer_status_id"
+                                                class="form-select form-select-sm d-inline-block w-auto border-success bg-success text-white"
+                                                onchange="this.form.submit()">
+                                            @foreach($statuses as $status)
+                                                <option value="{{ $status->id }}"
+                                                    {{ $trainer->trainer_status_id == $status->id ? 'selected' : '' }}>
+                                                    {{ $status->status }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </div>
+                            @else
                                 <div class="mb-3">
                                     <strong>Status:</strong>
                                     <span class="badge bg-success">
                                         {{ $trainer->trainerStatus->status }}
                                     </span>
                                 </div>
-                            </div>
                             @endcan
 
 
@@ -93,7 +89,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Father's Name
                                         </small>
 
@@ -112,7 +108,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Gender
                                         </small>
 
@@ -131,7 +127,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Phone
                                         </small>
 
@@ -150,7 +146,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Email
                                         </small>
 
@@ -169,7 +165,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Address
                                         </small>
 
@@ -205,7 +201,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Specialization
                                         </small>
 
@@ -224,7 +220,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Certification
                                         </small>
 
@@ -245,7 +241,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Experience
                                         </small>
 
@@ -267,7 +263,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Hiring Date
                                         </small>
 
@@ -305,7 +301,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Birth Date
                                         </small>
 
@@ -323,7 +319,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             Birth Place
                                         </small>
 
@@ -341,7 +337,7 @@
                                     <div class="p-3 rounded"
                                         style="background:#111827;">
 
-                                        <small class="text-secondary">
+                                        <small class="text-body">
                                             SSN
                                         </small>
 
@@ -357,7 +353,65 @@
                             </div>
 
                         </div>
+                        {{-- Assigned Workouts --}}
+                        <div class="mb-5">
 
+                            <h4 class="fw-bold mb-4">
+                                Assigned Workouts
+                            </h4>
+
+                            @if ($trainer->workouts->isEmpty())
+
+                                <div class="p-3 rounded text-body" style="background:#111827;">
+                                    No workouts assigned.
+                                </div>
+
+                            @else
+
+                                <div class="row g-3">
+
+                                    @foreach ($trainer->workouts as $workout)
+
+                                        <div class="col-md-6">
+
+                                            <div class="p-3 rounded" style="background:#111827;">
+
+                                                <div class="d-flex justify-content-between align-items-start">
+
+                                                    <strong>{{ $workout->name }}</strong>
+
+                                                    <span class="badge bg-secondary text-capitalize">
+                                                        {{ $workout->workoutLevel?->level ?? 'N/A' }}
+                                                    </span>
+
+                                                </div>
+
+                                                <small class="text-body d-block mt-1">
+                                                    {{ $workout->sportsType?->type ?? 'No sport type' }}
+                                                </small>
+
+                                                <div class="mt-2 d-flex justify-content-between">
+
+                                                    <span>{{ $workout->duration }} min</span>
+                                                    <span>${{ number_format($workout->price, 2) }}</span>
+
+                                                </div>
+
+                                                <small class="text-body d-block mt-1">
+                                                    Starts {{ $workout->start_date?->format('Y-m-d') }}
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    @endforeach
+
+                                </div>
+
+                            @endif
+
+                        </div>
 
 
 

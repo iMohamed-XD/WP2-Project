@@ -5,12 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
-#[Fillable(['status'])]
-#[Hidden([])]
-class TrainerStatus extends Model
+
+#[Fillable(['trainer_id', 'workout_id'])]
+class TrainerWorkout extends Model
 {
-    public function trainers()
-    {
-        return $this->hasMany(Trainer::class);
-    }
+    //
 }

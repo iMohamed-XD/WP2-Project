@@ -206,13 +206,44 @@
 
             transform: translateY(-2px);
         }
+        .app-content {
+            transition: margin-left .2s;
+        }
+
+        .has-sidebar .app-content {
+            margin-left: 240px;
+        }
+
+        @media (max-width: 768px) {
+            .has-sidebar .app-content {
+                margin-left: 72px;
+            }
+        }
+        .form-floating > label {
+            color: #94a3b8;
+        }
+
+        .form-floating > .form-control {
+            color: white;
+        }
+
+        .form-floating > .form-control:not(:placeholder-shown) ~ label,
+        .form-floating > .form-control:focus ~ label {
+            color: #93c5fd;
+            background: transparent;
+        }
+
+        .form-floating > .form-control:focus {
+            color: white;
+        }
     </style>
 </head>
 
-<body>
-
-    {{ $slot }}
-
-</div>
+<body class="{{ request()->routeIs('login', 'welcome') ? '' : 'has-sidebar' }} 
+    ">
+    <x-sidebar />
+    <div class="app-content">
+        {{ $slot }}
+    </div>
 </body>
 </html>

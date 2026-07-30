@@ -1,6 +1,6 @@
 <x-layout>
-
-<div class="card auth-card text-light m-4">
+<div class="d-flex justify-content-center align-items-center vh-100">
+<div class="card auth-card text-light m-4 w-50 mx-auto">
     <div class="card-body p-5">
 
         <h2 class="card-title text-center mb-4">
@@ -33,23 +33,25 @@
 
             @csrf
 
-            <div class="mb-3">
-                <label class="form-label">Username</label>
+            <div class="form-floating mb-3">
                 <input
                     type="text"
                     class="form-control"
+                    id="loginUsername"
                     name="name"
                     value="{{ old('name') }}"
                     placeholder="Enter username">
+                <label for="loginUsername">Username</label>
             </div>
 
-            <div class="mb-4">
-                <label class="form-label">Password</label>
+            <div class="form-floating mb-4">
                 <input
                     type="password"
                     class="form-control"
+                    id="loginPassword"
                     name="password"
                     placeholder="Enter password">
+                <label for="loginPassword">Password</label>
             </div>
 
             <button class="btn btn-primary w-100 mb-3">
@@ -65,5 +67,5 @@
 
     </div>
 </div>
-
+</div>
 </x-layout>

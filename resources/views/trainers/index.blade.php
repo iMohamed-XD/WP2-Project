@@ -7,7 +7,7 @@
                 <h1 class="fw-bold mb-1">
                     Trainers
                 </h1>
-                <p class="text-secondary mb-0">
+                <p class="text-body mb-0">
                     Manage trainers and sports staff.
                 </p>
             </div>
@@ -23,11 +23,11 @@
                         <h4 class="mb-1 fw-bold">
                             Filter Trainers
                         </h4>
-                        <small class="text-secondary">
+                        <small class="text-body">
                             Search and filter trainers by different criteria.
                         </small>
                     </div>
-                    <button class="btn btn-outline-secondary"
+                    <button class="btn btn-outline-light"
                             id="clearFilters">
                         Clear Filters
                     </button>
