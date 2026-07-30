@@ -32,7 +32,7 @@ class LoginController extends Controller
                 'members' => redirect()->route('members.index'),
                 'branches' => redirect()->route('branches'),
                 'warehouses' => redirect()->route('warehouses'),
-                'classes' => redirect()->route('classes'),
+                'classes' => redirect()->route('workouts'),
 
                 // default => redirect()->route('dashboard'),
             };
