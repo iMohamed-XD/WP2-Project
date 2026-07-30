@@ -60,11 +60,7 @@
                                 <div class="row g-4">
 
                                     <div class="col-md-3 text-center">
-                                        @if($trainer->image)
-                                            <img src="{{ asset('storage/'.$trainer->image) }}" class="current-avatar mb-2">
-                                        @else
-                                            <img src="{{ asset('images/avatar-default.jpg') }}" class="current-avatar mb-2">
-                                        @endif
+                                        <img src="{{ $trainer->profile_picture_url }}" class="current-avatar mb-2">
                                         <label class="form-label d-block">Change Profile Image</label>
                                         <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
                                         @error('image') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -167,18 +163,21 @@
                                         @error('certification') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <label class="form-label">Employment Status <span class="required-mark">*</span></label>
-                                        <select name="trainer_status_id" class="form-select @error('trainer_status_id') is-invalid @enderror">
-                                            <option value="">Select Status</option>
-                                            @foreach($trainerStatuses as $status)
-                                                <option value="{{ $status->id }}" {{ old('trainer_status_id', $trainer->trainer_status_id) == $status->id ? 'selected' : '' }}>
-                                                    {{ $status->status }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('trainer_status_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
+                                    @can('editStatus', $trainer)
+                                        <div class="col-md-4">
+                                            <label class="form-label">Employment Status <span class="required-mark">*</span></label>
+                                            <select name="trainer_status_id" class="form-select @error('trainer_status_id') is-invalid @enderror">
+                                                <option value="">Select Status</option>
+                                                @foreach($trainerStatuses as $status)
+                                                    <option value="{{ $status->id }}"
+                                                        {{ old('trainer_status_id', $trainer->trainer_status_id) == $status->id ? 'selected' : '' }}>
+                                                        {{ $status->status }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('trainer_status_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    @endcan
 
                                     <div class="col-md-4">
                                         <label class="form-label">Years of Experience <span class="required-mark">*</span></label>

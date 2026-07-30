@@ -12,11 +12,7 @@
         <div class="col-lg-4 col-md-6">
             <div class="trainer-card h-100">
                 <div class="trainer-card-photo">
-                    @if($trainer->image)
-                        <img src="{{ asset('storage/'.$trainer->image) }}" alt="{{ $trainer->firstname }}">
-                    @else
-                        <img src="{{ asset('images/avatar-default.jpg') }}" alt="{{ $trainer->firstname }}">
-                    @endif
+                    <img src="{{ $trainer->profile_picture_url }}" class="profile-avatar">
                     <span class="status-pill status-pill-{{ $statusColors[$trainer->trainerStatus?->status] ?? 'gray' }}">
                         <i class="bi bi-circle-fill"></i>
                         {{ $trainer->trainerStatus?->status ?? 'Unknown' }}

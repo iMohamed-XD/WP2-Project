@@ -155,15 +155,7 @@
                         {{-- Header --}}
                         <div class="profile-header">
 
-                            @if ($trainer->image)
-                                <img src="{{ asset('storage/'.$trainer->image) }}"
-                                     alt="{{ $trainer->firstname }} {{ $trainer->lastname }}"
-                                     class="profile-avatar">
-                            @else
-                                <img src="{{ asset('images/avatar-default.jpg') }}"
-                                     alt="{{ $trainer->firstname }}"
-                                     class="profile-avatar">
-                            @endif
+                            <img src="{{ $trainer->profile_picture_url }}" class="profile-avatar">
 
                             <div>
                                 <div class="profile-name">
