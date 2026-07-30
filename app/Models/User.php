@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -30,11 +31,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function department(){
+    public function department(): BelongsTo
+    {
         return $this->belongsTo(department::class);
     }
 
-    public function role(){
+    public function role(): BelongsTo
+    {
         return $this->belongsTo(role::class);
     }
 }

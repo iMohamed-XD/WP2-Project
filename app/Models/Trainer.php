@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Storage;
 
 #[Fillable([
@@ -32,25 +34,27 @@ use Illuminate\Support\Facades\Storage;
 class Trainer extends Model
 {
     use HasFactory, SoftDeletes;
+    protected function casts(): array
+    {
+        return [
+            'birthdate' => 'date',
+            'hiring_date' => 'date',
+            'email_verified_at' => 'datetime',
+            'years_of_experience' => 'integer',
+        ];
+    }
 
-    protected $casts = [
-        'birthdate' => 'date',
-        'hiring_date' => 'date',
-        'email_verified_at' => 'datetime',
-        'years_of_experience' => 'integer',
-    ];
-
-    public function sportsType()
+    public function sportsType(): BelongsTo
     {
         return $this->belongsTo(SportsType::class);
     }
 
-    public function trainerStatus()
+    public function trainerStatus(): BelongsTo
     {
         return $this->belongsTo(TrainerStatus::class);
     }
 
-    public function scopeFilter($query, array $filters)
+    public function scopeFilter($query, array $filters): void
     {
         $query->when($filters['specialty'] ?? null, function ($query, $specialty) {
             $query->where('sports_type_id', $specialty);
@@ -75,7 +79,7 @@ class Trainer extends Model
         );
     }
 
-    public function workouts()
+    public function workouts(): BelongsToMany
     {
         return $this->belongsToMany(Workout::class, 'trainer_workouts');
     }
