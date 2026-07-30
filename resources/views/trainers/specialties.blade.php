@@ -1,13 +1,17 @@
 <x-layout>
-    
+
     <style>
         .section-title h3 {
             font-size: 1.35rem;
-            font-weight: 600;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
+            border-left: 4px solid #3b82f6;
+            padding-left: 12px;
         }
+
+        .section-title h3 i { color: #60a5fa; }
 
         .badge-count {
             font-size: .75rem;
@@ -36,27 +40,22 @@
             border-bottom: 1px solid #334155;
         }
 
-        .specialty-input {
-            max-width: 280px;
-        }
+        .specialty-input { max-width: 280px; }
 
         .btn-edit {
-            background: rgba(59, 130, 246, .12);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, .35);
+            background: rgba(34, 197, 94, .12);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, .35);
             display: flex;
             align-items: center;
             gap: 6px;
             white-space: nowrap;
         }
 
-        .btn-edit:hover {
-            background: #3b82f6;
-            color: white;
-        }
+        .btn-edit:hover { background: #22c55e; color: white; }
 
         .btn-delete {
-            background: transparent;
+            background: rgba(239, 68, 68, .1);
             color: #f87171;
             border: 1px solid #f87171;
             display: inline-flex;
@@ -64,10 +63,7 @@
             gap: 6px;
         }
 
-        .btn-delete:hover {
-            background: #f87171;
-            color: white;
-        }
+        .btn-delete:hover { background: #f87171; color: white; }
 
         .btn-add-specialty {
             background: #3b82f6;
@@ -92,19 +88,10 @@
             border: 1px solid #334155;
         }
 
-        .btn-cancel:hover {
-            background: #1e293b;
-            color: white;
-        }
+        .btn-cancel:hover { background: #1e293b; color: white; }
 
-        .empty-icon {
-            font-size: 2rem;
-            color: #334155;
-        }
-
-        .empty-state {
-            color: #64748b;
-        }
+        .empty-icon { font-size: 2rem; color: #334155; }
+        .empty-state { color: #64748b; }
 
         .add-specialty-modal {
             background: #0f172a;
@@ -113,34 +100,29 @@
         }
 
         .add-specialty-modal .modal-header,
-        .add-specialty-modal .modal-footer {
-            border-color: #1e293b;
-        }
+        .add-specialty-modal .modal-footer { border-color: #1e293b; }
     </style>
+
     <div class="container py-5">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
             <x-user-badge :name="auth()->user()->name"></x-user-badge>
         </div>
 
         <div class="auth-card p-4">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 section-title">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 section-title mb-4">
                 <h3 class="mb-0">
+                    <i class="bi bi-tags-fill"></i>
                     Specialties Management
                     <span class="badge-count">{{ $specialties->total() }}</span>
                 </h3>
 
-                <button
-                    type="button"
-                    class="btn btn-add-specialty"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addSpecialtyModal"
-                >
+                <button type="button" class="btn btn-add-specialty" data-bs-toggle="modal" data-bs-target="#addSpecialtyModal">
                     <i class="bi bi-plus-lg"></i>
                     Add Specialty
                 </button>
             </div>
 
-            <div class="table-responsive mt-3">
+            <div class="table-responsive">
                 <table class="table table-hover align-middle specialty-table">
                     <thead>
                         <tr>
@@ -154,20 +136,11 @@
                         <tr>
                             <td class="text-secondary">{{ $loop->iteration }}</td>
                             <td>
-                                <form
-                                    action="{{ route('trainers.editSpecialties', $specialty->id) }}"
-                                    method="POST"
-                                    class="d-flex gap-2"
-                                >
+                                <form action="{{ route('trainers.editSpecialties', $specialty->id) }}" method="POST" class="d-flex gap-2">
                                     @csrf
                                     @method('PUT')
-                                    <input
-                                        type="text"
-                                        name="type"
-                                        value="{{ $specialty->type }}"
-                                        class="form-control form-control-sm specialty-input"
-                                        required
-                                    >
+                                    <input type="text" name="type" value="{{ $specialty->type }}"
+                                           class="form-control form-control-sm specialty-input" required>
                                     <button class="btn btn-sm btn-edit" type="submit">
                                         <i class="bi bi-check2"></i>
                                         Save
@@ -175,18 +148,10 @@
                                 </form>
                             </td>
                             <td class="text-end">
-                                <form
-                                    action="{{ route('trainers.deleteSpecialties', $specialty->id) }}"
-                                    method="POST"
-                                    class="d-inline"
-                                >
+                                <form action="{{ route('trainers.deleteSpecialties', $specialty->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button
-                                        class="btn btn-sm btn-delete"
-                                        type="submit"
-                                        onclick="return confirm('Delete this specialty?')"
-                                    >
+                                    <button class="btn btn-sm btn-delete" type="submit" onclick="return confirm('Delete this specialty?')">
                                         <i class="bi bi-trash"></i>
                                         Delete
                                     </button>
@@ -211,7 +176,6 @@
         </div>
     </div>
 
-    <!-- Add Specialty Modal -->
     <div class="modal fade" id="addSpecialtyModal" tabindex="-1" aria-labelledby="addSpecialtyLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content add-specialty-modal">
@@ -226,15 +190,8 @@
                     </div>
                     <div class="modal-body">
                         <label for="newSpecialtyType" class="form-label">Specialty Name</label>
-                        <input
-                            type="text"
-                            id="newSpecialtyType"
-                            name="type"
-                            class="form-control"
-                            placeholder="e.g. Strength & Conditioning"
-                            required
-                            autofocus
-                        >
+                        <input type="text" id="newSpecialtyType" name="type" class="form-control"
+                               placeholder="e.g. Strength & Conditioning" required autofocus>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>

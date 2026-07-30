@@ -1,44 +1,53 @@
+@php
+    $statusColors = [
+        'Active' => 'green',
+        'On Leave' => 'amber',
+        'Loaned' => 'blue',
+        'Ended Contract' => 'red',
+    ];
+@endphp
+
 <div class="row g-4">
     @forelse($trainers as $trainer)
         <div class="col-lg-4 col-md-6">
-            <div class="card auth-card h-100 border-0">
-                @if($trainer->image)
-                    <img src="{{ asset('storage/'.$trainer->image) }}"
-                         class="card-img-top"
-                         style="height:300px;object-fit:cover;"
-                         alt="{{ $trainer->firstname }}">
-                @else
-                    <img src="{{ asset('images/avatar-default.jpg') }}"
-                    class="card-img-top"
-                    style="height:300px;object-fit:cover;"
-                    alt="{{ $trainer->firstname }}">
-                        @endif
-                <div class="card-body d-flex flex-column">
-                    <h4 class="fw-bold">{{ $trainer->firstname }} {{ $trainer->lastname }}</h4>
-                    <hr>
-                    <p><strong>Specialization</strong><br>
-                        <span class="text-secondary">{{ $trainer->sportsType?->type ?? 'Not Assigned' }}</span>
-                    </p>
-                    <p><strong>Status</strong><br>
-                        <span class="badge bg-success">{{ $trainer->trainerStatus?->status ?? 'Unknown' }}</span>
-                    </p>
-                    <p><strong>Experience</strong><br>{{ $trainer->years_of_experience }} Years</p>
-                    <p><strong>Phone</strong><br>{{ $trainer->phone }}</p>
-                    <div class="mt-auto">
-                        <a href="{{ route('trainers.show',$trainer->id) }}" class="btn btn-primary w-100">
-                            View Profile
-                        </a>
+            <div class="trainer-card h-100">
+                <div class="trainer-card-photo">
+                    @if($trainer->image)
+                        <img src="{{ asset('storage/'.$trainer->image) }}" alt="{{ $trainer->firstname }}">
+                    @else
+                        <img src="{{ asset('images/avatar-default.jpg') }}" alt="{{ $trainer->firstname }}">
+                    @endif
+                    <span class="status-pill status-pill-{{ $statusColors[$trainer->trainerStatus?->status] ?? 'gray' }}">
+                        <i class="bi bi-circle-fill"></i>
+                        {{ $trainer->trainerStatus?->status ?? 'Unknown' }}
+                    </span>
+                </div>
+
+                <div class="trainer-card-body">
+                    <h4 class="trainer-name">{{ $trainer->firstname }} {{ $trainer->lastname }}</h4>
+
+                    <div class="trainer-specialty">
+                        <i class="bi bi-award-fill"></i>
+                        {{ $trainer->sportsType?->type ?? 'Not Assigned' }}
                     </div>
+
+                    <div class="trainer-stats">
+                        <span><i class="bi bi-briefcase-fill"></i> {{ $trainer->years_of_experience }} yrs</span>
+                        <span><i class="bi bi-telephone-fill"></i> {{ $trainer->phone }}</span>
+                    </div>
+
+                    <a href="{{ route('trainers.show', $trainer->id) }}" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-eye-fill me-1"></i> View Profile
+                    </a>
                 </div>
             </div>
         </div>
     @empty
         <div class="col-12">
-            <div class="card auth-card">
-                <div class="card-body text-center p-5">
-                    <h3>No Trainers Found</h3>
-                    <p class="text-secondary">Try adjusting your filters.</p>
-                </div>
+            <div class="empty-box">
+                <i class="bi bi-people fs-1 d-block mb-2"></i>
+                <h5 class="mb-1">No Trainers Found</h5>
+                <p class="mb-0">Try adjusting your filters.</p>
             </div>
         </div>
     @endforelse

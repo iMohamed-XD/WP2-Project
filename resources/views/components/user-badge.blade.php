@@ -1,5 +1,5 @@
 @props(['name' => 'someone'])
-
+@if (!request()->routeIs('login', 'welcome'))
 <div class="container py-3">
     <div class="d-flex justify-content-start mb-4">
         <div class="user-badge">
@@ -22,3 +22,4 @@
             </form>
         </div>
     </div>
+@endif
