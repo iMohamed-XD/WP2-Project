@@ -155,7 +155,13 @@ class TrainerController extends Controller
     {
         $trainer = Trainer::findOrFail($id);
         Gate::authorize('delete', $trainer);
-        
+
+        if ($trainer->workouts()->exists()) {
+            return redirect()
+                ->route('trainers.show', $trainer->id)
+                ->with('error', 'This trainer cannot be deleted while workouts are still assigned. Unassign the workouts first.');
+        }
+
         $trainer->delete();
 
         return redirect()->route('trainers.index')->with('success', 'Trainer deleted successfully.');
