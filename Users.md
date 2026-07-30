@@ -10,8 +10,8 @@
 | Branches Employee   | Employee | Branches   |
 | Warehouses Manager  | Manager  | Warehouses |
 | Warehouses Employee | Employee | Warehouses |
-| Classes Manager     | Manager  | Classes    |
-| Classes Employee    | Employee | Classes    |
+| Workouts Manager    | Manager  | Workouts   |
+| Workouts Employee   | Employee | Workouts   |
 
 # Password
 
