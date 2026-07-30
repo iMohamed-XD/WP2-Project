@@ -27,8 +27,9 @@ class TrainerFactory extends Factory
                     'address' => $this->faker->optional()->address(),
                     'image' => null, // avoid faking file paths that don't exist on disk
                     'gender' => $this->faker->randomElement(['Male', 'Female']),
-                    'sports_type_id' => SportsType::inRandomOrder()->value('id'),
-                    'trainer_status_id' => TrainerStatus::inRandomOrder()->value('id'),
+                    // use nullsafe operator to avoid argument issues and null errors
+                    'sports_type_id' => SportsType::inRandomOrder()->first()?->id,
+                    'trainer_status_id' => TrainerStatus::inRandomOrder()->first()?->id,
                     'birthplace' => $this->faker->optional()->city(),
                     'birthdate' => $this->faker->dateTimeBetween('-59 years', '-19 years'),
                     'years_of_experience' => $this->faker->numberBetween(2, 50),

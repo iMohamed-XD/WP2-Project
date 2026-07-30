@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 
 #[Fillable([
@@ -74,9 +75,17 @@ class Trainer extends Model
     {
         return Attribute::make(
             get: fn () => $this->image
-                ? Storage::disk('public')->url($this->image)
+                ? $this->publicStorageUrl($this->image)
                 : asset('images/avatar-default.jpg')
         );
+    }
+
+    protected function publicStorageUrl(string $path): string
+    {
+        /** @var FilesystemAdapter $disk */
+        $disk = Storage::disk('public');
+
+        return $disk->url($path);
     }
 
     public function workouts(): BelongsToMany

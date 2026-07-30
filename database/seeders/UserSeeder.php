@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
      */
     public function run(): void
         {
-            $managerRole = Role::where('role', 'manager')->first();
-            $employeeRole = Role::where('role', 'employee')->first();
+            $managerRole = Role::firstWhere('role', 'manager');
+            $employeeRole = Role::firstWhere('role', 'employee');
 
             $departments = [
                 'trainers',
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
 
             foreach ($departments as $departmentName) {
 
-                $department = Department::where('department', $departmentName)->first();
+                $department = Department::firstWhere('department', $departmentName);
 
                 // Manager for department
                 User::create([
