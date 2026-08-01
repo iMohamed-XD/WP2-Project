@@ -120,7 +120,7 @@ class TrainerController extends Controller
     {
         $trainer = Trainer::findOrFail($id);
         //Gate::authorize('edit', $trainer);
-        $validatedData = $request->validate([
+        $rules = [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'fathername' => 'nullable|string|max:255',
@@ -135,14 +135,17 @@ class TrainerController extends Controller
             'hiring_date' => 'required|date',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'sports_type_id' => 'required|exists:sports_types,id',
-            //'trainer_status_id' => 'required|exists:trainer_statuses,id',
             'certification' => 'required|in:level_1,level_2,level_3,level_4',
-        ]);
+        ];
 
-        // if (Gate::allows('editStatus', $trainer)) {
-        //     $rules['trainer_status_id'] = 'required|exists:trainer_statuses,id';
-        //     $validatedData = $request->validate($rules);
-        //     }
+        if (Gate::allows('editStatus', $trainer)) {
+            $rules['trainer_status_id'] = 'required|exists:trainer_statuses,id';
+        }
+
+        if (! Gate::allows('editStatus', $trainer)) {
+            unset($validatedData['trainer_status_id']);
+        }
+        $validatedData = $request->validate($rules);
 
         if ($request->hasFile('image')) {
             Storage::delete('public/' . $trainer->image);
