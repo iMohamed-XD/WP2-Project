@@ -24,14 +24,13 @@ class WarehouseDashboardController extends Controller
             ])
             ->groupBy('governorate')
             ->get();
-        // المستودعات حسب السعة (تصنيف)
         $warehousesByCapacity = Warehouse::select([
-            DB::raw('CASE 
-                WHEN capacity IS NULL THEN "غير محدد"
-                WHEN capacity < 100 THEN "صغير (أقل من 100)"
-                WHEN capacity < 300 THEN "متوسط (100-300)"
-                ELSE "كبير (أكثر من 300)"
-            END as capacity_level'),
+            DB::raw("CASE 
+                WHEN capacity IS NULL THEN 'غير محدد'
+                WHEN capacity < 100 THEN 'صغير (أقل من 100)'
+                WHEN capacity < 300 THEN 'متوسط (100-300)'
+                ELSE 'كبير (أكثر من 300)'
+            END as capacity_level"),
             DB::raw('count(*) as total')
         ])
         ->groupBy('capacity_level')
