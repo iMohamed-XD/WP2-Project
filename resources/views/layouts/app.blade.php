@@ -19,9 +19,19 @@
             --bg: #342d2d;
             --sidebar: #0d184e;
             --primary: #4fc1ee;
+            --primary-hover: #3ae0ff;
             --secondary: #FF8C00;
             --text: #FFFFFF;
             --text-muted: #A3A3A3;
+            --text-secondary: #A3A3A3;
+            --card: #181818;
+            --surface: #111111;
+            --border: #262626;
+            --divider: #262626;
+            --background: #342d2d;
+            --success: #22b5c5;
+            --danger: #EF4444;
+            --info: #38bdf8;
         }
 
 
