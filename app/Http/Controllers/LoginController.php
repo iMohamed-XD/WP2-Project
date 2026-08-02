@@ -31,7 +31,7 @@ class LoginController extends Controller
                 'trainers' => redirect()->route('trainers.index'),
                 'members' => redirect()->route('members.index'),
                 'branches' => redirect()->route('branches'),
-                'warehouses' => redirect()->route('warehouses'),
+                'warehouses' => redirect()->route('warehouses.index'),
                 'workouts' => redirect()->route('workouts'),
 
                 // default => redirect()->route('dashboard'),
