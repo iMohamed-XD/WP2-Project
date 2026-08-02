@@ -36,7 +36,16 @@ class TrainerController extends Controller
         $sportsTypes = SportsType::all();
         $trainerStatuses = TrainerStatus::all();
 
-        return view('trainers.index', compact('trainers', 'sportsTypes', 'trainerStatuses'));
+        $totalTrainers = Trainer::query()->count('*');
+        $activeStatusId = TrainerStatus::query()
+            ->where('status', '=', 'Active', 'and')
+            ->value('id');
+
+        $activeTrainers = Trainer::query()
+            ->where('trainer_status_id', '=', $activeStatusId, 'and')
+            ->count('*');
+
+        return view('trainers.index', compact('trainers', 'sportsTypes', 'trainerStatuses', 'totalTrainers', 'activeTrainers'));
     }
 
     /**

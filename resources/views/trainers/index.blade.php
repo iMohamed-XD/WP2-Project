@@ -124,6 +124,58 @@
             text-align: center;
             color: #64748b;
         }
+
+        .stats-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card-mini {
+            flex: 1;
+            min-width: 220px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 20px 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.3);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: .25s;
+        }
+
+        .stat-card-mini:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px rgba(59,130,246,.15);
+        }
+
+        .stat-icon-wrap {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .stat-icon-wrap.blue  { background: rgba(59,130,246,.15); color: #93c5fd; }
+        .stat-icon-wrap.green { background: rgba(34,197,94,.15);  color: #4ade80; }
+
+        .stat-card-mini .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-card-mini .stat-label {
+            color: #94a3b8;
+            font-size: .85rem;
+        }
     </style>
 
     <div class="container py-5">
@@ -136,6 +188,28 @@
             <a href="{{ route('trainers.create') }}" class="btn btn-primary">
                 <i class="bi bi-person-plus-fill me-1"></i> Add Trainer
             </a>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card-mini">
+                <div class="stat-icon-wrap blue">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div>
+                    <div class="stat-value">{{ $totalTrainers }}</div>
+                    <div class="stat-label">Total Trainers</div>
+                </div>
+            </div>
+
+            <div class="stat-card-mini">
+                <div class="stat-icon-wrap green">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div>
+                    <div class="stat-value">{{ $activeTrainers }}</div>
+                    <div class="stat-label">Active Trainers</div>
+                </div>
+            </div>
         </div>
 
         <div class="card auth-card border-0 mb-5">
