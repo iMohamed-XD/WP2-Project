@@ -16,13 +16,14 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('father_name');
             $table->string('last_name');
-            $table->date('birth_date')->nullable();
-            $table->date('membership_start_date')->nullable();
-            $table->string('national_id')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('membership_type')->nullable();
+            $table->string('email');
+            $table->date('birth_date');
+            $table->string('national_id' ,  11 )->unique();
+            $table->string('phone');
             $table->string('photo')->nullable();
-            $table->string('image')->nullable();
+            $table->integer('membership_duration');
+            $table->foreignId('membership_type_id')->constrained('membership_types');
+            $table->foreignId('member_status_id')->constrained('member_statuses');
             $table->timestamps();
         });
     }

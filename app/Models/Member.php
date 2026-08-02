@@ -2,37 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable([
-    'first_name',
-    'father_name',
-    'last_name',
-    'birth_date',
-    'membership_start_date',
-    'national_id',
-    'phone',
-    'membership_type',
-    'photo',
-    'image',
-])]
-#[Hidden([
-    'password',
-    'remember_token',
-])]
 class Member extends Model
 {
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected function casts(): array
+    protected $fillable = [
+        'first_name', 'father_name', 'last_name', 'email', 'birth_date', 
+        'national_id', 'phone', 'photo', 'membership_duration', 
+        'membership_type_id', 'member_status_id'
+    ];
+    public function membershipType()
     {
-        return [
-            'email_verified_at' => 'datetime',
-        ];
+        return $this->belongsTo(MembershipType::class);
     }
+    public function Workouts() {
+        return $this->belongsToMany(Workout::class);
+    }
+    public function memberStatus()
+    {
+        return $this->belongsTo(MemberStatus::class);
+    }
+    
 }

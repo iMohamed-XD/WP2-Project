@@ -33,22 +33,21 @@
             </div>
         @endif
         
-        <!-- إضافة enctype للتمكن من رفع الصور -->
         <form action="/members/{{ $member->id }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT') 
 
             <!-- قسم الصورة -->
             <div class="mb-3 text-center">
-                @if(!empty($member->image))
-                    <img src="{{ asset('storage/' . $member->image) }}" width="120" height="120" class="mb-2" style="border-radius:50%; object-fit: cover; border: 3px solid #eee;">
+                @if(!empty($member->photo))
+                    <img src="{{ asset('storage/' . $member->photo) }}" width="120" height="120" class="mb-2" style="border-radius:50%; object-fit: cover; border: 3px solid #eee;">
                 @else
                     <img src="https://ui-avatars.com/api/?name={{ urlencode($member->first_name . ' ' . $member->last_name) }}&background=random&size=128" 
                          width="120" height="120" class="mb-2" style="border-radius:50%; border: 3px solid #eee;">
                 @endif
                 <div class="mt-2">
                     <label class="form-label">Change Profile Picture</label>
-                    <input type="file" name="image" class="form-control" accept="image/*">
+                    <input type="file" name="photo" class="form-control" accept="image/*">
                 </div>
             </div>
             
@@ -68,6 +67,11 @@
             </div>
 
             <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" value="{{ old('email', $member->email) }}" required>
+            </div>
+
+            <div class="mb-3">
                 <label class="form-label">National ID</label>
                 <input type="text" name="national_id" class="form-control" value="{{ old('national_id', $member->national_id) }}" maxlength="11" required>
             </div>
@@ -79,31 +83,29 @@
 
             <div class="mb-3">
                 <label class="form-label">Membership Package</label>
-                <select name="membership_type" class="form-select">
-                    <option value="Regular" {{ (old('membership_type', $member->membership_type) == 'Regular') ? 'selected' : '' }}>Regular</option>
-                    <option value="VIP" {{ (old('membership_type', $member->membership_type) == 'VIP') ? 'selected' : '' }}>VIP</option>
-                    <option value="Annual" {{ (old('membership_type', $member->membership_type) == 'Annual') ? 'selected' : '' }}>Annual</option>
+                <select name="membership_type_id" class="form-select" required>
+                    @foreach($types as $type)
+                        <option value="{{ $type->id }}" {{ old('membership_type_id', $member->membership_type_id) == $type->id ? 'selected' : '' }}>
+                            {{ $type->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Member Status</label>
+                <select name="member_status_id" class="form-select" required>
+                    @foreach($statuses as $status)
+                        <option value="{{ $status->id }}" {{ old('member_status_id', $member->member_status_id) == $status->id ? 'selected' : '' }}>
+                            {{ $status->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Subscription Duration (Months)</label>
-                <select name="membership_duration" class="form-select" required>
-                    <option value="1" {{ old('membership_duration', $member->membership_duration) == '1' ? 'selected' : '' }}>1 Month</option>
-                    <option value="2" {{ old('membership_duration', $member->membership_duration) == '2' ? 'selected' : '' }}>2 Months</option>
-                    <option value="3" {{ old('membership_duration', $member->membership_duration) == '3' ? 'selected' : '' }}>3 Months</option>
-                    <option value="6" {{ old('membership_duration', $member->membership_duration) == '6' ? 'selected' : '' }}>6 Months</option>
-                    <option value="12" {{ old('membership_duration', $member->membership_duration) == '12' ? 'selected' : '' }}>1 Year</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Membership Status</label>
-                <select name="status" class="form-select" required>
-                    <option value="Active" {{ old('status', $member->status) == 'Active' ? 'selected' : '' }}>Active</option>
-                    <option value="Expired" {{ old('status', $member->status) == 'Expired' ? 'selected' : '' }}>Expired</option>
-                    <option value="Frozen" {{ old('status', $member->status) == 'Frozen' ? 'selected' : '' }}>Frozen</option>
-                </select>
+                <input type="number" name="membership_duration" class="form-control" value="{{ old('membership_duration', $member->membership_duration) }}" required>
             </div>
 
             <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>

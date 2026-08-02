@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\BranchController;
 
+
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -25,7 +26,13 @@ Route::middleware(['auth', 'department:trainers'])->group(function () {
 
 //Members
 Route::middleware(['auth', 'department:members'])->group(function () {
-    Route::resource('members', MemberController::class);
+    Route::get('/members/create', [MemberController::class, 'create']);
+    Route::post('/members', [MemberController::class, 'store']);
+    Route::get('/members', [MemberController::class, 'index']);
+    Route::delete('/members/{id}', [MemberController::class, 'destroy']);
+    Route::get('/members/{id}/edit', [MemberController::class, 'edit']);
+    Route::put('/members/{id}', [MemberController::class, 'update']);
+    Route::get('/members/{id}', [MemberController::class, 'show']);
 });
 
 //Branches done

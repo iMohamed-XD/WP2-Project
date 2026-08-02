@@ -2,130 +2,130 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Member;
+use App\Models\MembershipType;
+use App\Models\MemberStatus;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
-    public function create()
+    // دالة العرض مع الفلترة الدقيقة
+    public function index(Request $request)
+{
+    // جلب الحالات لعرضها في الفورم
+    $statuses = \App\Models\MemberStatus::all();
+    
+    $query = Member::query();
+
+    // الفلترة الحالية
+    $query->when($request->first_name, fn($q) => $q->where('first_name', $request->first_name));
+    $query->when($request->last_name, fn($q) => $q->where('last_name', $request->last_name));
+    $query->when($request->national_id, fn($q) => $q->where('national_id', $request->national_id));
+    
+    // إضافة فلترة الحالة الجديدة
+    $query->when($request->member_status_id, fn($q) => $q->where('member_status_id', $request->member_status_id));
+
+    $members = $query->with(['membershipType', 'memberStatus'])->get();
+
+    return view('members.index', compact('members', 'statuses'));
+}    public function create()
     {
-        return view('members.create');
+        $types = MembershipType::all();
+        $statuses = MemberStatus::all(); 
+        return view('members.create', compact('types', 'statuses'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'first_name' => 'required',
-            'father_name' => 'required',
-            'last_name' => 'required',
-            'national_id' => 'required|unique:gym_members,national_id',
-            'phone' => 'required|unique:gym_members,phone',
-            'membership_type' => 'required',
+            'first_name' => 'required|string|max:255',
+            'father_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:members,email',
+            'birth_date' => [
+            'required', 
+            'date', 
+            'before_or_equal:' . date('Y-m-d', strtotime('-18 years')),
+            'after_or_equal:' . date('Y-m-d', strtotime('-70 years'))
+        ],
+            'national_id' => 'required|digits:11|unique:members,national_id',
+            'phone' => ['required', 'regex:/^09\d{8}$/'],
+            'membership_type_id' => 'required|exists:membership_types,id',
             'membership_duration' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // معالجة الصورة بشكل نظيف
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('members', 'public');
-        }
+        $imagePath = $request->hasFile('photo') ? $request->file('photo')->store('members', 'public') : null;
 
-        // DB::table('gym_members')->insert([
-        //     'first_name' => $request->first_name,
-        //     'father_name' => $request->father_name,
-        //     'last_name' => $request->last_name,
-        //     'national_id' => $request->national_id,
-        //     'phone' => $request->phone,
-        //     'membership_type' => $request->membership_type,
-        //     'membership_duration' => $request->membership_duration,
-        //     'image' => $imagePath, // سيتم إرسال null إذا لم توجد صورة
-        //     'membership_start_date' => now(),
-        //     'status' => 'Active',
-        //     'email' => 'N/A',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
         Member::create([
             'first_name' => $request->first_name,
             'father_name' => $request->father_name,
             'last_name' => $request->last_name,
+            'email' => $request->email,
+            'birth_date' => $request->birth_date,
             'national_id' => $request->national_id,
             'phone' => $request->phone,
-            'membership_type' => $request->membership_type,
+            'membership_type_id' => $request->membership_type_id,
             'membership_duration' => $request->membership_duration,
-            'image' => $imagePath, // سيتم إرسال null إذا لم توجد صورة
-            'membership_start_date' => now(),
-            'status' => 'Active',
-            'email' => 'N/A',
+            'member_status_id' => 1,
+            'photo' => $imagePath,
         ]);
-
 
         return redirect('/members')->with('success', 'Member added successfully!');
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'first_name' => 'required',
-            'father_name' => 'required',
-            'last_name' => 'required',
-            'national_id' => 'required|unique:gym_members,national_id,' . $id,
-            'phone' => 'required|unique:gym_members,phone,' . $id,
-            'membership_duration' => 'required|integer',
-            'status' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $data = [
-            'first_name' => $request->first_name,
-            'father_name' => $request->father_name,
-            'last_name' => $request->last_name,
-            'national_id' => $request->national_id,
-            'phone' => $request->phone,
-            'membership_type' => $request->membership_type,
-            'membership_duration' => $request->membership_duration,
-            'status' => $request->status,
-            'updated_at' => now(),
-        ];
-
-        // تحديث الصورة فقط إذا تم رفع صورة جديدة
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('members', 'public');
-            $data['image'] = $imagePath;
-        }
-
-        // DB::table('gym_members')->where('id', $id)->update($data);
-        Member::where('id', $id)->update($data);
-
-        return redirect('/members')->with('success', 'Member information updated successfully!');
-    }
-
-    // بقية الدوال (index, edit, destroy) تبقى كما هي بدون تغيير
-    public function index(Request $request)
-    {
-        // $query = DB::table('gym_members');
-        $query = Member::query();
-        if ($request->filled('first_name')) $query->where('first_name', 'LIKE', $request->first_name . '%');
-        if ($request->filled('last_name')) $query->where('last_name', 'LIKE', $request->last_name . '%');
-        if ($request->filled('national_id')) $query->where('national_id', $request->national_id);
-        if ($request->filled('membership_type')) $query->where('membership_type', $request->membership_type);
-        if ($request->filled('created_at')) $query->whereDate('created_at', $request->created_at);
-        $members = $query->get();
-        return view('members.index', compact('members'));
-    }
-
     public function edit($id)
-    {
-        $member = Member::where('id', $id)->first();
-        return view('members.edit', compact('member'));
-    }
+{
+    $member = Member::findOrFail($id);
+    $types = MembershipType::all();
+    $statuses = MemberStatus::all(); // أضف هذا السطر
+    return view('members.edit', compact('member', 'types', 'statuses'));
+}
 
-    public function destroy($id)
-    {
-        Member::where('id', $id)->delete();
-        return redirect('/members')->with('success', 'Member deleted successfully!');
+    public function update(Request $request, $id)
+{
+    $member = Member::findOrFail($id);
+    
+    $request->validate([
+        'first_name' => 'required',
+        'father_name' => 'required',
+        'last_name' => 'required',
+        'email' => 'required|email|unique:members,email,'.$id,
+        'national_id' => 'required|digits:11|unique:members,national_id,'.$id,
+        'member_status_id' => 'required|exists:member_statuses,id', // تحقق من وجود الحالة
+    ]);
+
+    $data = $request->except('photo');
+    
+    if ($request->hasFile('photo')) {
+        $data['photo'] = $request->file('photo')->store('members', 'public');
     }
+    
+    $member->update($data);
+    
+    return redirect('/members')->with('success', 'Member updated successfully!');
+}
+public function destroy($id)
+{
+    // البحث عن العضو
+    $member = Member::findOrFail($id);
+    
+    // حذف الصورة من التخزين إذا كانت موجودة
+    if ($member->photo) {
+        \Storage::disk('public')->delete($member->photo);
+    }
+    
+    // حذف السجل من قاعدة البيانات
+    $member->delete();
+    
+    // العودة مع رسالة نجاح
+    return redirect('/members')->with('success', 'Member deleted successfully!');
+}
+public function show($id)
+{
+    // جلب العضو مع بيانات نوع الاشتراك المرتبط به
+    $member = Member::with('membershipType')->findOrFail($id);
+    
+    return view('members.show', compact('member'));
+}
 }
