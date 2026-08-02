@@ -5,6 +5,9 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\WarehouseDashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,9 +44,33 @@ Route::middleware(['auth', 'department:workouts'])->group(function () {
 
 //Warehouses
 Route::middleware(['auth', 'department:warehouses'])->group(function () {
-    Route::get('/warehouses', function () {
-        return view('warehouses.index');
-    })->name('warehouses');
+    Route::get('/warehouses', [WarehouseController::class, 'index'])
+        ->name('warehouses.index');
+
+    Route::get('/warehouse/dashboard', [WarehouseDashboardController::class, 'index'])
+        ->name('warehouse.dashboard');
+
+    Route::get('/warehouses/create', [WarehouseController::class, 'create'])
+        ->name('warehouses.create');
+
+
+    Route::post('/warehouses', [WarehouseController::class, 'store'])
+        ->name('warehouses.store');
+
+
+    Route::get('/warehouses/{warehouse}/edit', [WarehouseController::class, 'edit'])
+        ->name('warehouses.edit');
+
+
+    Route::put('/warehouses/{warehouse}', [WarehouseController::class, 'update'])
+        ->name('warehouses.update');
+
+
+    Route::delete('/warehouses/{warehouse}', [WarehouseController::class, 'destroy'])
+        ->name('warehouses.destroy');
+
+    Route::get('/warehouses/{warehouse}/download', [WarehouseController::class, 'downloadBrochure'])
+        ->name('warehouses.download');
 });
 
 //Login and Logout
