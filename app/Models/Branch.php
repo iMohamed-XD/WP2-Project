@@ -11,8 +11,16 @@ class Branch extends Model
         'location',
         'phone',
         'governorate',
+        'country_id',
+        'capacity',
+        'brochure_path',
     ];
     public function warehouses() {
         return $this->belongsToMany(Warehouse::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 }

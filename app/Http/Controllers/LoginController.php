@@ -30,7 +30,7 @@ class LoginController extends Controller
             return match ($user->department->department) {
                 'trainers' => redirect()->route('trainers.index'),
                 'members' => redirect()->route('members.index'),
-                'branches' => redirect()->route('branches'),
+                'branches' => redirect()->route('branches.dashboard'),
                 'warehouses' => redirect()->route('warehouse.dashboard'),
                 'workouts' => redirect()->route('workouts'),
 

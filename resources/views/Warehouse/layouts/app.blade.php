@@ -853,19 +853,19 @@
 <div class="wrapper">
 
 
-    @include('partials.sidebar')
+    @include('Warehouse.partials.sidebar')
 
 
     <div class="content">
 
 
-        @include('partials.navbar')
+        @include('Warehouse.partials.navbar')
 
 
         @yield('content')
 
 
-        @include('partials.footer')
+        @include('Warehouse.partials.footer')
 
 
     </div>

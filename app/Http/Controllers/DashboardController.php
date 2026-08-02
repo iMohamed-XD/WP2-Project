@@ -22,7 +22,7 @@ class DashboardController extends Controller
             ->get();
 
 
-        return view('dashboard.index', compact(
+        return view('Warehouse.dashboard.index', compact(
 
             'totalWarehouses',
 

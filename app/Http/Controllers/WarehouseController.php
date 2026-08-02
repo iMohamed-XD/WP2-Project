@@ -56,7 +56,7 @@ public function index(Request $request)
             'Deir ez-Zor', 'Raqqa', 'Idlib', 'Quneitra'
         ];
 
-        return view('warehouses.index', compact(
+        return view('Warehouse.warehouses.index', compact(
             'warehouses',
             'countries',
             'branches',
@@ -79,7 +79,7 @@ public function index(Request $request)
             'Deir ez-Zor', 'Raqqa', 'Idlib', 'Quneitra'
         ];
 
-        return view('warehouses.create', compact('countries', 'branches', 'governorates'));
+        return view('Warehouse.warehouses.create', compact('countries', 'branches', 'governorates'));
     }
 
 
@@ -124,7 +124,7 @@ public function index(Request $request)
             'Deir ez-Zor', 'Raqqa', 'Idlib', 'Quneitra'
         ];
 
-        return view('warehouses.edit', compact('warehouse', 'countries', 'branches', 'governorates'));
+        return view('Warehouse.warehouses.edit', compact('warehouse', 'countries', 'branches', 'governorates'));
     }
 
 

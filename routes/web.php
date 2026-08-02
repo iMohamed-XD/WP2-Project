@@ -7,13 +7,13 @@ use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WarehouseController;
-use App\Http\Controllers\WarehouseDashboardController;
+use App\Http\Controllers\BranchController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-//Trainers
+//Trainers done
 Route::middleware(['auth', 'department:trainers'])->group(function () {
     Route::patch('/trainers/{trainer}/status', [TrainerController::class, 'updateStatus'])->name('trainers.updateStatus');
     Route::get('/trainers/specialties', [TrainerController::class, 'specialties'])->name('trainers.specialties');
@@ -28,26 +28,28 @@ Route::middleware(['auth', 'department:members'])->group(function () {
     Route::resource('members', MemberController::class);
 });
 
-//Branches
+//Branches done
 Route::middleware(['auth', 'department:branches'])->group(function () {
-    Route::get('/branches', function () {
-        return view('branches.index');
-    })->name('branches');
+    Route::get('/branches/dashboard', fn() => view('branches.dashboard'))->name('branches.dashboard');
+    Route::get('/branches/data-entry', fn() => redirect()->route('branches.create'))->name('data.entry');
+    Route::get('/branches/edit-data', fn() => view('branches.edit-data'))->name('edit.data');
+    Route::get('/branches/details', fn() => view('branches.details'))->name('details');
+    Route::resource('branches', BranchController::class);
 });
 
-//Classes
+//Workouts
 Route::middleware(['auth', 'department:workouts'])->group(function () {
     Route::get('/workouts', function () {
         return view('workouts.index');
     })->name('workouts');
 });
 
-//Warehouses
+//Warehouses done
 Route::middleware(['auth', 'department:warehouses'])->group(function () {
     Route::get('/warehouses', [WarehouseController::class, 'index'])
         ->name('warehouses.index');
 
-    Route::get('/warehouses/dashboard', [ DashboardController::class, 'index'])
+    Route::get('/warehouses/dashboard', [DashboardController::class, 'index'])
         ->name('warehouse.dashboard');
 
     Route::get('/warehouses/create', [WarehouseController::class, 'create'])

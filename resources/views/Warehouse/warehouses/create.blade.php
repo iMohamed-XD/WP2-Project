@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Warehouse.layouts.app')
 
 @section('title','Add Warehouse')
 
@@ -45,7 +45,7 @@
                 @endphp
 
 
-                @include('warehouses.form')
+                @include('Warehouse.warehouses.form')
 
 
             </form>

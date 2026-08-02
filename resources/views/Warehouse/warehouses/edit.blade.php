@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Warehouse.layouts.app')
 
 @section('title', 'Edit Warehouse')
 
@@ -26,7 +26,7 @@
                     $button = 'Update Warehouse';
                 @endphp
 
-                @include('warehouses.form')
+                @include('Warehouse.warehouses.form')
 
             </form>
         </div>

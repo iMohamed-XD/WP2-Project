@@ -42,7 +42,7 @@ class WarehouseDashboardController extends Controller
             ->limit(5)
             ->get();
 
-        return view('warehouse-dashboard.index', compact(
+        return view('Warehouse.warehouse-dashboard.index', compact(
             'totalWarehouses',
             'totalCountries',
             'totalBranches',

@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('phone')->nullable();
             $table->string('governorate')->nullable();
+            $table->foreignId('country_id')->constrained('countries');
+            $table->integer('capacity');
+            $table->string('brochure_path')->nullable();
             $table->timestamps();
         });
     }
