@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Warehouse;
 use App\Models\Country;
+use App\Models\Branch;
 
 class WarehouseSeeder extends Seeder
 {
@@ -23,8 +24,16 @@ class WarehouseSeeder extends Seeder
             ['name' => 'Daraa Central Warehouse', 'location' => 'Industrial Area - Daraa', 'phone' => '015-5550001', 'country_id' => $syriaId, 'governorate' => 'Daraa', 'capacity' => 150],
         ];
 
-        foreach ($warehouses as $warehouse) {
-            Warehouse::create($warehouse);
+        foreach ($warehouses as $warehouseData) {
+
+            $warehouse = Warehouse::create($warehouseData);
+
+            $branch = Branch::where('governorate', $warehouseData['governorate'])
+                            ->first();
+
+            if ($branch) {
+                $warehouse->branches()->attach($branch->id);
+            }
         }
     }
 }
