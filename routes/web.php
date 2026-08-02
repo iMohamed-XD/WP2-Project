@@ -28,7 +28,7 @@ Route::middleware(['auth', 'department:trainers'])->group(function () {
 Route::middleware(['auth', 'department:members'])->group(function () {
     Route::get('/members/create', [MemberController::class, 'create']);
     Route::post('/members', [MemberController::class, 'store']);
-    Route::get('/members', [MemberController::class, 'index']);
+    Route::get('/members', [MemberController::class, 'index'])->name('members.index');
     Route::delete('/members/{id}', [MemberController::class, 'destroy']);
     Route::get('/members/{id}/edit', [MemberController::class, 'edit']);
     Route::put('/members/{id}', [MemberController::class, 'update']);
