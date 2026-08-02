@@ -1,3 +1,4 @@
+import './bootstrap';
 import $ from 'jquery';
 import * as bootstrap from 'bootstrap';
 window.$ = window.jQuery = $;

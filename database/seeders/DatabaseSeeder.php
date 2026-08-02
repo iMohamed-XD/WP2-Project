@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
             WorkoutLevelSeeder::class,
             WorkoutSeeder::class,
             TrainerWorkoutSeeder::class,
+            BranchSeeder::class,
+            CountrySeeder::class,
+            WarehouseSeeder::class,
         ]);
     }
 }
