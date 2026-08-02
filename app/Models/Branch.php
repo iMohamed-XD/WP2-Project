@@ -8,8 +8,11 @@ class Branch extends Model
 {
      protected $fillable = [
         'name',
+        'location',
+        'phone',
+        'governorate',
     ];
     public function warehouses() {
-        return $this->belongsToMany(warehouse::class);
+        return $this->belongsToMany(Warehouse::class);
     }
 }
