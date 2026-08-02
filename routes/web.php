@@ -47,7 +47,7 @@ Route::middleware(['auth', 'department:warehouses'])->group(function () {
     Route::get('/warehouses', [WarehouseController::class, 'index'])
         ->name('warehouses.index');
 
-    Route::get('/warehouses/dashboard', [WarehouseDashboardController::class, 'index'])
+    Route::get('/warehouses/dashboard', [ DashboardController::class, 'index'])
         ->name('warehouse.dashboard');
 
     Route::get('/warehouses/create', [WarehouseController::class, 'create'])
