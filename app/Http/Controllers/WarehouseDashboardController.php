@@ -18,11 +18,14 @@ class WarehouseDashboardController extends Controller
         $totalBrochures = Warehouse::whereNotNull('brochure')->count();
         
         // المستودعات حسب المحافظة
-        $warehousesByGovernorate = Warehouse::select('governorate', DB::raw('count(*) as total'))
+        $warehousesByGovernorate = Warehouse::select([
+                'governorate',
+                DB::raw('count(*) as total')
+            ])
             ->groupBy('governorate')
             ->get();
         // المستودعات حسب السعة (تصنيف)
-        $warehousesByCapacity = Warehouse::select(
+        $warehousesByCapacity = Warehouse::select([
             DB::raw('CASE 
                 WHEN capacity IS NULL THEN "غير محدد"
                 WHEN capacity < 100 THEN "صغير (أقل من 100)"
@@ -30,7 +33,7 @@ class WarehouseDashboardController extends Controller
                 ELSE "كبير (أكثر من 300)"
             END as capacity_level'),
             DB::raw('count(*) as total')
-        )
+        ])
         ->groupBy('capacity_level')
         ->get();
         
