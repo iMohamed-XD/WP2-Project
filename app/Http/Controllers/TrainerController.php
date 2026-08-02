@@ -142,10 +142,11 @@ class TrainerController extends Controller
             $rules['trainer_status_id'] = 'required|exists:trainer_statuses,id';
         }
 
+        $validatedData = $request->validate($rules);
+
         if (! Gate::allows('editStatus', $trainer)) {
             unset($validatedData['trainer_status_id']);
         }
-        $validatedData = $request->validate($rules);
 
         if ($request->hasFile('image')) {
             Storage::delete('public/' . $trainer->image);
