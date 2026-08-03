@@ -58,49 +58,51 @@
 
 @push('scripts')
 <script>
-$(document).ready(function () {
+    document.addEventListener('DOMContentLoaded', function() {
+        $(document).ready(function () {
 
-    function performSearch() {
-        const params = {
-            sports_type_id: $('#sports_type_id').val(),
-            workout_level_id: $('#workout_level_id').val(),
-            max_price: $('#max_price').val(),
-        };
+            function performSearch() {
+                const params = {
+                    sports_type_id: $('#sports_type_id').val(),
+                    workout_level_id: $('#workout_level_id').val(),
+                    max_price: $('#max_price').val(),
+                };
 
-        $('#resultsContainer').html('<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>');
+                $('#resultsContainer').html('<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>');
 
-        $.ajax({
-            url: "{{ route('workouts.search') }}",
-            method: 'GET',
-            data: params,
-            dataType: 'json',
-            success: function (response) {
-                $('#resultsContainer').html(response.html);
-                $('#resultsInfo').html('<i class="bi bi-info-circle"></i> تم العثور على ' + response.count + ' حصة/حصص.');
-            },
-            error: function () {
-                $('#resultsContainer').html('<div class="col-12"><div class="alert alert-danger">حدث خطأ أثناء البحث، يرجى المحاولة مجدداً.</div></div>');
+                $.ajax({
+                    url: "{{ route('workouts.search') }}",
+                    method: 'GET',
+                    data: params,
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#resultsContainer').html(response.html);
+                        $('#resultsInfo').html('<i class="bi bi-info-circle"></i> تم العثور على ' + response.count + ' حصة/حصص.');
+                    },
+                    error: function () {
+                        $('#resultsContainer').html('<div class="col-12"><div class="alert alert-danger">حدث خطأ أثناء البحث، يرجى المحاولة مجدداً.</div></div>');
+                    }
+                });
             }
+
+            $('#btnSearch').on('click', function (e) {
+                e.preventDefault();
+                performSearch();
+            });
+
+            $('#btnReset').on('click', function () {
+                setTimeout(function () {
+                    $('#resultsContainer').html(
+                        '<div class="col-12 text-center text-muted py-5">' +
+                        '<i class="bi bi-funnel fs-1"></i>' +
+                        '<p class="mt-2">استخدم الفلاتر أعلاه ثم اضغط "بحث" لعرض النتائج.</p>' +
+                        '</div>'
+                    );
+                    $('#resultsInfo').html('');
+                }, 10);
+            });
+
         });
-    }
-
-    $('#btnSearch').on('click', function (e) {
-        e.preventDefault();
-        performSearch();
     });
-
-    $('#btnReset').on('click', function () {
-        setTimeout(function () {
-            $('#resultsContainer').html(
-                '<div class="col-12 text-center text-muted py-5">' +
-                '<i class="bi bi-funnel fs-1"></i>' +
-                '<p class="mt-2">استخدم الفلاتر أعلاه ثم اضغط "بحث" لعرض النتائج.</p>' +
-                '</div>'
-            );
-            $('#resultsInfo').html('');
-        }, 10);
-    });
-
-});
 </script>
 @endpush

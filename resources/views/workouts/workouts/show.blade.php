@@ -62,7 +62,7 @@
             </div>
             <div class="card-body">
                 @forelse($workout->trainers as $trainer)
-                    <span class="badge bg-info text-dark me-1 mb-1">{{ $trainer->name }}</span>
+                    <span class="badge bg-info text-dark me-1 mb-1">{{ $trainer->firstname }}</span>
                 @empty
                     <p class="text-muted mb-0">لا يوجد مدربون مرتبطون بهذه الحصة.</p>
                 @endforelse
