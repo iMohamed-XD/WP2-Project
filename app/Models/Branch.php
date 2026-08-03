@@ -23,4 +23,8 @@ class Branch extends Model
     {
         return $this->belongsTo(Country::class);
     }
+    public function workouts()
+    {
+        return $this->belongsToMany(Workout::class, 'branch_workout');
+    }
 }

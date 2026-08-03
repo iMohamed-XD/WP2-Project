@@ -25,7 +25,16 @@ class Workout extends Model
 
     public function trainers(): BelongsToMany
     {
-        return $this->belongsToMany(Trainer::class, 'trainer_workouts');
+        return $this->belongsToMany(Trainer::class, 'trainer_workouts')->withTimestamps();
+    }
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class, 'branch_workout')->withTimestamps();
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(Member::class, 'member_workout')->withPivot('trainer_id', 'start_date')->withTimestamps();
     }
 
     protected function casts(): array
@@ -33,6 +42,20 @@ class Workout extends Model
         return [
             'start_date' => 'datetime',
             'price' => 'decimal:2',
+            'duration'   => 'integer',
         ];
+    }
+    public function scopeFilter($query, array $filters)
+    {
+        return $query
+            ->when($filters['sports_type_id'] ?? null, function ($q, $value) {
+                $q->where('sports_type_id', $value);
+            })
+            ->when($filters['workout_level_id'] ?? null, function ($q, $value) {
+                $q->where('workout_level_id', $value);
+            })
+            ->when($filters['max_price'] ?? null, function ($q, $value) {
+                $q->where('price', '<=', $value);
+            });
     }
 }

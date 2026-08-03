@@ -14,4 +14,8 @@ class SportsType extends Model
     {
         return $this->hasMany(Trainer::class);
     }
+    public function workouts()
+    {
+        return $this->hasMany(Workout::class);
+    }
 }

@@ -15,12 +15,14 @@ class Member extends Model
     {
         return $this->belongsTo(MembershipType::class);
     }
-    public function Workouts() {
-        return $this->belongsToMany(Workout::class);
-    }
     public function memberStatus()
     {
         return $this->belongsTo(MemberStatus::class);
     }
-    
+    public function workouts()
+    {
+        return $this->belongsToMany(Workout::class, 'member_workout')
+                    ->withPivot('trainer_id', 'start_date')
+                    ->withTimestamps();
+    }
 }

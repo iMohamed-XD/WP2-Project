@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('workouts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 255)->unique();
             $table->text('description')->nullable();
-            $table->decimal('price', 8, 2);
+            $table->decimal('price', 10, 2);
             $table->integer('duration');
-            $table->foreignId('sportstype_id')->constrained('sports_types');
-            $table->foreignId('workoutlevel_id')->constrained('workout_levels');
+            $table->foreignId('sportstype_id')->constrained('sports_types')->onDelete('cascade');
+            $table->foreignId('workoutlevel_id')->constrained('workout_levels')->onDelete('cascade');
             $table->string('image')->nullable();
             $table->dateTime('start_date');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
