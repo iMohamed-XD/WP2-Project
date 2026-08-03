@@ -48,12 +48,12 @@
                             class="form-select @error('sports_type_id') is-invalid @enderror" required>
                         <option value="">-- اختر التخصص --</option>
                         @foreach($sportsTypes as $type)
-                            <option value="{{ $type->id }}" {{ old('sports_type_id') == $type->id ? 'selected' : '' }}>
-                                {{ $type->name }}
+                            <option value="{{ $type->id }}" {{ old('sportstype_id') == $type->id ? 'selected' : '' }}>
+                                {{ $type->type }}
                             </option>
                         @endforeach
                     </select>
-                    @error('sports_type_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    @error('sportstype_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="col-md-6">
@@ -62,12 +62,12 @@
                             class="form-select @error('workout_level_id') is-invalid @enderror" required>
                         <option value="">-- اختر المستوى --</option>
                         @foreach($workoutLevels as $level)
-                            <option value="{{ $level->id }}" {{ old('workout_level_id') == $level->id ? 'selected' : '' }}>
-                                {{ $level->name }}
+                            <option value="{{ $level->level }}" {{ old('workoutlevel_id') == $level->id ? 'selected' : '' }}>
+                                {{ $level->level }}
                             </option>
                         @endforeach
                     </select>
-                    @error('workout_level_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    @error('workoutlevel_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="col-12">

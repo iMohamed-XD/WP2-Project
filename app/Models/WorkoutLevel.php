@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['level'])]
 class WorkoutLevel extends Model
 {
-    public function workout(): HasMany
+    public function workouts(): HasMany
     {
-        return $this->hasMany(Workout::class);
+        return $this->hasMany(Workout::class, 'workoutlevel_id');
     }
 }

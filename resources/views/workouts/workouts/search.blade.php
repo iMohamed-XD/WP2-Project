@@ -13,7 +13,7 @@
                 <select name="sports_type_id" id="sports_type_id" class="form-select">
                     <option value="">-- الكل --</option>
                     @foreach($sportsTypes as $type)
-                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                        <option value="{{ $type->id }}">{{ $type->type }}</option>
                     @endforeach
                 </select>
             </div>
@@ -23,7 +23,7 @@
                 <select name="workout_level_id" id="workout_level_id" class="form-select">
                     <option value="">-- الكل --</option>
                     @foreach($workoutLevels as $level)
-                        <option value="{{ $level->id }}">{{ $level->name }}</option>
+                        <option value="{{ $level->id }}">{{ $level->level }}</option>
                     @endforeach
                 </select>
             </div>

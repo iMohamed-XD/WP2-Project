@@ -14,8 +14,8 @@ class SportsType extends Model
     {
         return $this->hasMany(Trainer::class);
     }
-    public function workouts()
+    public function workouts(): HasMany
     {
-        return $this->hasMany(Workout::class);
+        return $this->hasMany(Workout::class, 'sportstype_id');
     }
 }

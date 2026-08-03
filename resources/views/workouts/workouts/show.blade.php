@@ -27,8 +27,8 @@
                 </div>
             @endif
             <div class="card-body">
-                <p><i class="bi bi-tag"></i> <strong>التخصص:</strong> {{ $workout->sportsType->name ?? '-' }}</p>
-                <p><i class="bi bi-bar-chart-steps"></i> <strong>المستوى:</strong> {{ $workout->workoutLevel->name ?? '-' }}</p>
+                <p><i class="bi bi-tag"></i> <strong>التخصص:</strong> {{ $workout->sportsType->type ?? '-' }}</p>
+                <p><i class="bi bi-bar-chart-steps"></i> <strong>المستوى:</strong> {{ $workout->workoutLevel->level ?? '-' }}</p>
                 <p><i class="bi bi-cash-coin"></i> <strong>السعر:</strong> {{ number_format($workout->price, 2) }} ريال</p>
                 <p><i class="bi bi-clock"></i> <strong>المدة:</strong> {{ $workout->duration }} دقيقة</p>
                 <p><i class="bi bi-calendar-event"></i> <strong>تاريخ بدء التسجيل:</strong> {{ $workout->start_date->format('Y-m-d') }}</p>

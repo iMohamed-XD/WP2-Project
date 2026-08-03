@@ -11,8 +11,8 @@
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title">{{ $workout->name }}</h5>
                 <p class="mb-1">
-                    <span class="badge bg-primary">{{ $workout->sportsType->name ?? '-' }}</span>
-                    <span class="badge bg-secondary">{{ $workout->workoutLevel->name ?? '-' }}</span>
+                    <span class="badge bg-primary">{{ $workout->sportsType->type ?? '-' }}</span>
+                    <span class="badge bg-secondary">{{ $workout->workoutLevel->level ?? '-' }}</span>
                 </p>
                 <p class="text-muted small mb-2">
                     <i class="bi bi-clock"></i> {{ $workout->duration }} دقيقة

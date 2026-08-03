@@ -49,10 +49,10 @@ class Workout extends Model
     {
         return $query
             ->when($filters['sports_type_id'] ?? null, function ($q, $value) {
-                $q->where('sports_type_id', $value);
+                $q->where('sportstype_id', $value);
             })
             ->when($filters['workout_level_id'] ?? null, function ($q, $value) {
-                $q->where('workout_level_id', $value);
+                $q->where('workoutlevel_id', $value);
             })
             ->when($filters['max_price'] ?? null, function ($q, $value) {
                 $q->where('price', '<=', $value);

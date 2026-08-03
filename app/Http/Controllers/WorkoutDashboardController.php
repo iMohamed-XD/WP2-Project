@@ -7,7 +7,7 @@ use App\Models\Workout;
 use App\Models\SportsType;
 use App\Models\WorkoutLevel;
 
-class DashboardController extends Controller
+class WorkoutDashboardController extends Controller
 {
     /**
      * عرض لوحة التحكم مع إحصائيات بسيطة
