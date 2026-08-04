@@ -41,7 +41,7 @@ Route::middleware(['auth', 'department:branches'])->group(function () {
     Route::get('/branches/dashboard', fn() => view('branches.dashboard'))->name('branches.dashboard');
     Route::get('/branches/data-entry', fn() => redirect()->route('branches.create'))->name('data.entry');
     Route::get('/branches/edit-data', fn() => view('branches.edit-data'))->name('edit.data');
-    Route::get('/branches/details', fn() => view('branches.details'))->name('details');
+    Route::get('/branches/details', [BranchController::class, 'details'])->name('details');
     Route::resource('branches', BranchController::class);
 });
 

@@ -53,6 +53,27 @@
         <p><strong>الموقع:</strong> {{ $branch->location }}</p>
         <p><strong>الهاتف:</strong> {{ $branch->phone }}</p>
         <p><strong>السعة:</strong> {{ $branch->capacity }}</p>
+        <h3>🏃 المدربون ({{ $branch->trainers->count() }})</h3>
+        @if($branch->trainers->isNotEmpty())
+            <ul>
+                @foreach($branch->trainers as $trainer)
+                    <li>{{ $trainer->fathername  }}</li>
+                @endforeach
+            </ul>
+        @else
+            <p>لا يوجد مدربون معينون لهذا الفرع.</p>
+        @endif
+
+        <h3>🏋️‍♂️ التدريبات ({{ $branch->workouts->count() }})</h3>
+        @if($branch->workouts->isNotEmpty())
+            <ul>
+                @foreach($branch->workouts as $workout)
+                    <li>{{ $workout->name }}</li>
+                @endforeach
+            </ul>
+        @else
+            <p>لا يوجد تدريبات معينة لهذا الفرع.</p>
+        @endif
     </div>
 </body>
 

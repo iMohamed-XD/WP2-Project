@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Country;
+use App\Models\Trainer;
+use App\Models\Workout;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
@@ -45,7 +47,12 @@ class BranchController extends Controller
     public function edit(Branch $branch)
     {
         $countries = Country::all();
-        return view('branches.branches.edit', compact('branch', 'countries'));
+        $trainers = Trainer::with('sportsType')->orderBy('firstname')->get();
+        $selectedTrainers = $branch->trainers->pluck('id')->toArray();
+        $workouts = Workout::all();
+        $selectedWorkouts = $branch->workouts->pluck('id')->toArray();
+
+        return view('branches.branches.edit', compact('branch', 'countries', 'trainers', 'selectedTrainers', 'workouts', 'selectedWorkouts'));
     }
 
     public function update(Request $request, Branch $branch)
@@ -60,17 +67,32 @@ class BranchController extends Controller
         }
         $branch->save();
 
+        $branch->trainers()->sync($request->input('trainers', []));
+        $branch->workouts()->sync($request->input('workouts', []));
         return redirect()->route('branches.index')->with('success', 'تم تحديث الفرع بنجاح');
     }
 
     public function destroy(Branch $branch)
-{
-    $branch->delete();
-    return redirect()->route('branches.index')->with('success', 'تم حذف الفرع');
-}
-public function create()
-{
-    $countries = Country::all();
-    return view('branches.branches.create', compact('countries'));
-}
+    {
+        if ($branch->trainers()->exists()) {
+            return back()->with('error', 'Cannot delete a branch that has trainers.');
+        }
+        if ($branch->workouts()->exists()) {
+            return back()->with('error', 'Cannot delete a branch that has workouts.');
+        }
+        $branch->delete();
+        return redirect()->route('branches.index')->with('success', 'تم حذف الفرع');
+    }
+    public function create()
+    {
+        $countries = Country::all();
+        return view('branches.branches.create', compact('countries'));
+    }
+    public function details()
+    {
+        $branches = Branch::with(['country', 'trainers.sportsType', 'workouts'])
+            ->paginate(6);
+
+        return view('branches.details', compact('branches'));
+    }
 }

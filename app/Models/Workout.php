@@ -36,6 +36,14 @@ class Workout extends Model
     {
         return $this->belongsToMany(Member::class, 'member_workout')->withPivot('trainer_id', 'start_date')->withTimestamps();
     }
+    // public function machines()
+    // {
+    //     return $this->belongsToMany(Machine::class, 'machine_workout')->withTimestamps();
+    // }
+    public function warehouses()
+    {
+        return $this->belongsToMany(Warehouse::class, 'warehouse_workout')->withTimestamps();
+    }
 
     protected function casts(): array
     {

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateWorkoutRequest;
 use App\Models\Workout;
 use App\Models\SportsType;
 use App\Models\WorkoutLevel;
+use App\Models\Warehouse;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -34,8 +35,9 @@ class WorkoutController extends Controller
         $sportsTypes   = SportsType::orderBy('type')->get();
         $workoutLevels = WorkoutLevel::orderBy('level')->get();
         $branches      = Branch::orderBy('name')->get();
+        $warehouses    = Warehouse::orderBy('name')->get();
 
-        return view('workouts.workouts.create', compact('sportsTypes', 'workoutLevels', 'branches'));
+        return view('workouts.workouts.create', compact('sportsTypes', 'workoutLevels', 'branches', 'warehouses'));
     }
 
     /**
@@ -67,7 +69,7 @@ class WorkoutController extends Controller
      */
     public function show(Workout $workout)
     {
-        $workout->load(['sportsType', 'workoutLevel', 'branches', 'trainers', 'members']);
+        $workout->load(['sportsType', 'workoutLevel', 'branches', 'trainers', 'members', 'warehouses']);
 
         return view('workouts.workouts.show', compact('workout'));
     }
@@ -80,11 +82,12 @@ class WorkoutController extends Controller
         $sportsTypes   = SportsType::orderBy('type')->get();
         $workoutLevels = WorkoutLevel::orderBy('level')->get();
         $branches      = Branch::orderBy('name')->get();
-
+        $warehouses    = Warehouse::orderBy('name')->get();
         // معرفات الفروع المرتبطة حالياً بالحصة (لتحديدها في النموذج)
         $selectedBranches = $workout->branches->pluck('id')->toArray();
+        $selectedWarehouses = $workout->warehouses->pluck('id')->toArray();
 
-        return view('workouts.workouts.edit', compact('workout', 'sportsTypes', 'workoutLevels', 'branches', 'selectedBranches'));
+        return view('workouts.workouts.edit', compact('workout', 'sportsTypes', 'workoutLevels', 'branches', 'warehouses', 'selectedBranches', 'selectedWarehouses'));
     }
 
     /**
@@ -106,6 +109,9 @@ class WorkoutController extends Controller
 
         // تحديث ربط الفروع
         $workout->branches()->sync($validated['branches'] ?? []);
+
+        // تحديث ربط المستودعات
+        $workout->warehouses()->sync($validated['warehouses'] ?? []);
 
         return redirect()->route('workouts.show', $workout)
                           ->with('success', 'تم تحديث بيانات الحصة بنجاح.');

@@ -55,6 +55,44 @@
             </div>
         </div>
 
+        @php
+            $warehouses = method_exists($workout, 'warehouses') ? $workout->warehouses : collect();
+        @endphp
+
+        <!-- المستودعات -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <i class="bi bi-box-seam"></i> المستودعات ({{ $warehouses->count() }})
+            </div>
+            <div class="card-body">
+                @forelse($warehouses as $warehouse)
+                    <span class="badge bg-success text-white me-1 mb-1">{{ $warehouse->name }}</span>
+                @empty
+                    <p class="text-muted mb-0">لا يوجد مستودعات مرتبطة بهذه الحصة.</p>
+                @endforelse
+            </div>
+        </div>
+
+        @php
+            $warehouseMachines = $warehouses->flatMap(function ($warehouse) {
+                return method_exists($warehouse, 'machines') ? $warehouse->machines : collect();
+            });
+        @endphp
+
+        <!-- الآلات الموجودة داخل المستودعات -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <i class="bi bi-tools"></i> الآلات الموجودة داخل المستودعات ({{ $warehouseMachines->count() }})
+            </div>
+            <div class="card-body">
+                @forelse($warehouseMachines as $machine)
+                    <span class="badge bg-warning text-dark me-1 mb-1">{{ $machine->name }}</span>
+                @empty
+                    <p class="text-muted mb-0">لا توجد آلات مرتبطة بهذه المستودعات.</p>
+                @endforelse
+            </div>
+        </div>
+
         <!-- المدربون -->
         <div class="card shadow-sm mb-4">
             <div class="card-header bg-white">

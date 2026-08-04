@@ -29,6 +29,10 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             BranchSeeder::class,
             WarehouseSeeder::class,
+            MembershipTypeSeeder::class,
+            MemberStatusSeeder::class,
+            // MemberSeeder::class,
+            MachineSeeder::class,
         ]);
     }
 }

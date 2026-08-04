@@ -56,7 +56,7 @@ class MemberController extends Controller
         ]);
 
         $imagePath = $request->hasFile('photo') ? $request->file('photo')->store('members', 'public') : null;
-
+        $active_status = MemberStatus::where('status', 'Active')->first();
         Member::create([
             'first_name' => $request->first_name,
             'father_name' => $request->father_name,
@@ -67,8 +67,9 @@ class MemberController extends Controller
             'phone' => $request->phone,
             'membership_type_id' => $request->membership_type_id,
             'membership_duration' => $request->membership_duration,
-            'member_status_id' => 1,
             'photo' => $imagePath,
+            'membership_end_date' => null,
+            'member_status_id' => $active_status->id
         ]);
 
         return redirect('/members')->with('success', 'Member added successfully!');

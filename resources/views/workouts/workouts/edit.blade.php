@@ -110,6 +110,51 @@
                         @endforelse
                     </div>
                 </div>
+
+                <div class="col-12">
+                    <label class="form-label">المخازن والآلات</label>
+                    <p class="text-muted small mb-3">اختر المخازن ثم اختر الآلات المتاحة داخل كل مخزن.</p>
+                    <div class="row g-3">
+                        @isset($warehouses)
+                            @foreach($warehouses as $warehouse)
+                                <div class="col-md-6">
+                                    <div class="border rounded p-3">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" name="warehouses[]"
+                                                   value="{{ $warehouse->id }}" id="warehouse{{ $warehouse->id }}"
+                                                   {{ in_array($warehouse->id, old('warehouses', $selectedWarehouses ?? [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label fw-bold" for="warehouse{{ $warehouse->id }}">
+                                                {{ $warehouse->name }}
+                                            </label>
+                                        </div>
+
+                                        @if($warehouse->machines->count())
+                                            <div class="ms-4">
+                                                <small class="text-muted d-block mb-2">الآلات داخل هذا المخزن</small>
+                                                @foreach($warehouse->machines as $machine)
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox"
+                                                               name="warehouse_machines[{{ $warehouse->id }}][]"
+                                                               value="{{ $machine->id }}"
+                                                               id="machine{{ $warehouse->id }}_{{ $machine->id }}"
+                                                               {{ in_array($machine->id, old('warehouse_machines.' . $warehouse->id, $selectedWarehouseMachines[$warehouse->id] ?? [])) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="machine{{ $warehouse->id }}_{{ $machine->id }}">
+                                                            {{ $machine->name }}
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <p class="text-muted small mb-0">لا توجد آلات في هذا المخزن.</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <p class="text-muted">لا توجد مخازن مضافة بعد.</p>
+                        @endisset
+                    </div>
+                </div>
             </div>
 
             <div class="d-flex justify-content-between mt-4">

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>تعديل البيانات - الأندية الرياضية</title>
-    <style>
+<style>
     * {
         margin: 0;
         padding: 0;
@@ -133,7 +133,7 @@
     .collapsible-content.show {
         display: block;
     }
-    </style>
+</style>
 </head>
 
 <body>

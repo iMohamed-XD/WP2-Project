@@ -29,4 +29,12 @@ class Warehouse extends Model
     {
         return $this->belongsToMany(Branch::class);
     }
+    public function machines()
+    {
+        return $this->belongsToMany(Machine::class);
+    }
+    public function workouts()
+    {
+        return $this->belongsToMany(Workout::class, 'warehouse_workout')->withTimestamps();
+    }
 } 

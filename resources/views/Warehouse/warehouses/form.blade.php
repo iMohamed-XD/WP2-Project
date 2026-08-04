@@ -130,6 +130,31 @@
 
 <div class="mb-3">
     <label class="form-label">
+        Machines
+    </label>
+    <select
+        name="machines[]"
+        class="form-select @error('machines') is-invalid @enderror"
+        multiple
+        style="height: 120px;"
+    >
+        @foreach($machines as $machine)
+            <option
+                value="{{ $machine->id }}"
+                {{ (isset($warehouse) && $warehouse->machines->contains($machine->id)) ? 'selected' : '' }}
+            >
+                {{ $machine->name }}
+            </option>
+        @endforeach
+    </select>
+    <small class="text-muted">Hold Ctrl/Cmd to select multiple machines</small>
+    @error('machines')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="mb-3">
+    <label class="form-label">
         Brochure (PDF / JPG / PNG)
     </label>
     <input

@@ -92,4 +92,8 @@ class Trainer extends Model
     {
         return $this->belongsToMany(Workout::class, 'trainer_workouts');
     }
+    public function branches(): BelongsToMany
+    {
+        return $this->belongsToMany(Branch::class, 'branch_trainer');
+    }
 }

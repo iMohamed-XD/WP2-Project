@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Warehouse;
 use App\Models\Country;
+use App\Models\Machine;
 use App\Models\Branch;  // <-- تأكد من وجود هذا السطر
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -73,13 +74,14 @@ public function index(Request $request)
     {
         $countries = Country::all();
         $branches = Branch::all();
+        $machines = Machine::all();
         $governorates = [
             'Damascus', 'Rural Damascus', 'Aleppo', 'Homs', 'Hama',
             'Latakia', 'Tartus', 'As-Suwayda', 'Daraa', 'Al-Hasakah',
             'Deir ez-Zor', 'Raqqa', 'Idlib', 'Quneitra'
         ];
 
-        return view('Warehouse.warehouses.create', compact('countries', 'branches', 'governorates'));
+        return view('Warehouse.warehouses.create', compact('countries', 'branches', 'governorates', 'machines'));
     }
 
 
@@ -95,6 +97,8 @@ public function index(Request $request)
             'brochure' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120', // 5MB
             'branches' => 'nullable|array',
             'branches.*' => 'exists:branches,id',
+            'machines' => 'nullable|array',
+            'machines.*' => 'exists:machines,id',
         ]);
 
         if ($request->hasFile('brochure')) {
@@ -109,6 +113,10 @@ public function index(Request $request)
             $warehouse->branches()->sync($request->branches);
         }
 
+        if ($request->has('machines')) {
+            $warehouse->machines()->sync($request->machines);
+        }
+
         return redirect()
             ->route('warehouses.index')
             ->with('success', 'Warehouse added successfully.');
@@ -118,13 +126,14 @@ public function index(Request $request)
     {
         $countries = Country::all();
         $branches = Branch::all();
+        $machines = Machine::all();
         $governorates = [
             'Damascus', 'Rural Damascus', 'Aleppo', 'Homs', 'Hama',
             'Latakia', 'Tartus', 'As-Suwayda', 'Daraa', 'Al-Hasakah',
             'Deir ez-Zor', 'Raqqa', 'Idlib', 'Quneitra'
         ];
 
-        return view('Warehouse.warehouses.edit', compact('warehouse', 'countries', 'branches', 'governorates'));
+        return view('Warehouse.warehouses.edit', compact('warehouse', 'countries', 'branches', 'governorates', 'machines'));
     }
 
 
@@ -142,6 +151,8 @@ public function update(Request $request, Warehouse $warehouse)
         'brochure' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'branches' => 'nullable|array',
         'branches.*' => 'exists:branches,id',
+        'machines' => 'nullable|array',
+        'machines.*' => 'exists:machines,id',
     ]);
 
     if ($request->hasFile('brochure')) {
@@ -165,6 +176,12 @@ public function update(Request $request, Warehouse $warehouse)
         $warehouse->branches()->sync($request->branches);
     } else {
         $warehouse->branches()->detach();
+    }
+
+    if ($request->has('machines')) {
+        $warehouse->machines()->sync($request->machines);
+    } else {
+        $warehouse->machines()->detach();
     }
 
     return redirect()

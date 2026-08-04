@@ -159,6 +159,7 @@
                                 <th>Phone</th>
                                 <th>Capacity</th>
                                 <th>Branches</th>
+                                <th>Machines</th>
                                 <th>Brochure</th>
                                 <th>Actions</th>
                             </tr>
@@ -184,6 +185,15 @@
                                             @endforeach
                                         @else
                                             <span class="text-muted">No Branches</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($warehouse->machines && $warehouse->machines->count() > 0)
+                                            @foreach($warehouse->machines as $machine)
+                                                <span class="badge bg-success">{{ $machine->name }}</span>
+                                            @endforeach
+                                        @else
+                                            <span class="text-muted">No Machines</span>
                                         @endif
                                     </td>
                                     <td>
@@ -214,7 +224,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10" class="text-center">
+                                    <td colspan="11" class="text-center">
                                         <div class="py-4">
                                             <i class="bi bi-box-seam fs-1 text-secondary"></i>
                                             <p class="mt-2">No Warehouses Found</p>

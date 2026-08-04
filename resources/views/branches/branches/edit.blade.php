@@ -85,6 +85,26 @@
 
             <label>البروشور (اختياري)</label>
             <input type="file" name="brochure">
+            <label>المدربون المعينون لهذا الفرع</label>
+            <select name="trainers[]" multiple style="height: 140px;">
+                @foreach($trainers as $trainer)
+                    <option value="{{ $trainer->id }}"
+                        {{ in_array($trainer->id, old('trainers', $selectedTrainers)) ? 'selected' : '' }}>
+                        {{ $trainer->firstname }} {{ $trainer->lastname }} — {{ $trainer->sportsType->type ?? 'غير محدد' }}
+                    </option>
+                @endforeach
+            </select>
+            <small style="color:#666; display:block; margin-bottom:10px;">اضغط Ctrl (أو Cmd) لاختيار أكثر من مدرب</small>
+            <label>التدريبات المعينة لهذا الفرع</label>
+            <select name="workouts[]" multiple style="height: 140px;">
+                @foreach($workouts as $workout)
+                    <option value="{{ $workout->id }}"
+                        {{ in_array($workout->id, old('workouts', $selectedWorkouts)) ? 'selected' : '' }}>
+                        {{ $workout->name }}
+                    </option>
+                @endforeach
+            </select>
+            <small style="color:#666; display:block; margin-bottom:10px;">اضغط Ctrl (أو Cmd) لاختيار أكثر من مدرب</small>
 
             <button type="submit">تحديث</button>
         </form>
