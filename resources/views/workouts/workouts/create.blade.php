@@ -62,7 +62,7 @@
                             class="form-select @error('workoutlevel_id') is-invalid @enderror" required>
                         <option value="">-- اختر المستوى --</option>
                         @foreach($workoutLevels as $level)
-                            <option value="{{ $level->level }}" {{ old('workoutlevel_id') == $level->id ? 'selected' : '' }}>
+                            <option value="{{ $level->id }}" {{ old('workoutlevel_id') == $level->id ? 'selected' : '' }}>
                                 {{ $level->level }}
                             </option>
                         @endforeach
