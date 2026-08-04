@@ -50,8 +50,8 @@
                         <option value="">-- اختر التخصص --</option>
                         @foreach($sportsTypes as $type)
                             <option value="{{ $type->id }}"
-                                {{ old('sports_type_id', $workout->sports_type_id) == $type->id ? 'selected' : '' }}>
-                                {{ $type->name }}
+                                {{ old('sports_type_id', $workout->sportstype_id) == $type->id ? 'selected' : '' }}>
+                                {{ $type->type }}
                             </option>
                         @endforeach
                     </select>
@@ -65,8 +65,8 @@
                         <option value="">-- اختر المستوى --</option>
                         @foreach($workoutLevels as $level)
                             <option value="{{ $level->id }}"
-                                {{ old('workout_level_id', $workout->workout_level_id) == $level->id ? 'selected' : '' }}>
-                                {{ $level->name }}
+                                {{ old('workout_level_id', $workout->workoutlevel_id) == $level->id ? 'selected' : '' }}>
+                                {{ $level->level }}
                             </option>
                         @endforeach
                     </select>

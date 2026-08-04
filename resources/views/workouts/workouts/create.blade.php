@@ -44,8 +44,8 @@
 
                 <div class="col-md-6">
                     <label for="sports_type_id" class="form-label">التخصص الرياضي <span class="text-danger">*</span></label>
-                    <select name="sports_type_id" id="sports_type_id"
-                            class="form-select @error('sports_type_id') is-invalid @enderror" required>
+                    <select name="sportstype_id" id="sportstype_id"
+                            class="form-select @error('sportstype_id') is-invalid @enderror" required>
                         <option value="">-- اختر التخصص --</option>
                         @foreach($sportsTypes as $type)
                             <option value="{{ $type->id }}" {{ old('sportstype_id') == $type->id ? 'selected' : '' }}>
@@ -58,8 +58,8 @@
 
                 <div class="col-md-6">
                     <label for="workout_level_id" class="form-label">المستوى <span class="text-danger">*</span></label>
-                    <select name="workout_level_id" id="workout_level_id"
-                            class="form-select @error('workout_level_id') is-invalid @enderror" required>
+                    <select name="workoutlevel_id" id="workoutlevel_id"
+                            class="form-select @error('workoutlevel_id') is-invalid @enderror" required>
                         <option value="">-- اختر المستوى --</option>
                         @foreach($workoutLevels as $level)
                             <option value="{{ $level->level }}" {{ old('workoutlevel_id') == $level->id ? 'selected' : '' }}>
