@@ -44,24 +44,24 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="sports_type_id" class="form-label">التخصص الرياضي <span class="text-danger">*</span></label>
-                    <select name="sports_type_id" id="sports_type_id"
-                            class="form-select @error('sports_type_id') is-invalid @enderror" required>
+                    <label for="sportstype_id" class="form-label">التخصص الرياضي <span class="text-danger">*</span></label>
+                    <select name="sportstype_id" id="sportstype_id"
+                            class="form-select @error('sportstype_id') is-invalid @enderror" required>
                         <option value="">-- اختر التخصص --</option>
                         @foreach($sportsTypes as $type)
                             <option value="{{ $type->id }}"
-                                {{ old('sports_type_id', $workout->sportstype_id) == $type->id ? 'selected' : '' }}>
+                                {{ old('sportstype_id', $workout->sportstype_id) == $type->id ? 'selected' : '' }}>
                                 {{ $type->type }}
                             </option>
                         @endforeach
                     </select>
-                    @error('sports_type_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    @error('sportstype_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="col-md-6">
-                    <label for="workout_level_id" class="form-label">المستوى <span class="text-danger">*</span></label>
-                    <select name="workout_level_id" id="workout_level_id"
-                            class="form-select @error('workout_level_id') is-invalid @enderror" required>
+                    <label for="workoutlevel_id" class="form-label">المستوى <span class="text-danger">*</span></label>
+                    <select name="workoutlevel_id" id="workoutlevel_id"
+                            class="form-select @error('workoutlevel_id') is-invalid @enderror" required>
                         <option value="">-- اختر المستوى --</option>
                         @foreach($workoutLevels as $level)
                             <option value="{{ $level->id }}"
@@ -70,7 +70,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('workout_level_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    @error('workoutlevel_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="col-12">

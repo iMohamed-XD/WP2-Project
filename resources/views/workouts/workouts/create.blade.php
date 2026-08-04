@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="workout_level_id" class="form-label">المستوى <span class="text-danger">*</span></label>
+                    <label for="workoutlevel_id" class="form-label">المستوى <span class="text-danger">*</span></label>
                     <select name="workoutlevel_id" id="workoutlevel_id"
                             class="form-select @error('workoutlevel_id') is-invalid @enderror" required>
                         <option value="">-- اختر المستوى --</option>
